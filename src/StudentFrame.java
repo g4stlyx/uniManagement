@@ -309,12 +309,12 @@ public class StudentFrame extends JFrame {
 			}
 		});
 
-		JPanel attendanceInfoPanel = new JPanel();
-		attendanceInfoPanel.setBackground(new Color(128, 128, 128));
-		attendanceInfoPanel.setBounds(270, 84, 794, 306);
-		attendanceInfoPanel.setLayout(null);
-		attendanceInfoPanel.setVisible(false);
-		contentPane.add(attendanceInfoPanel);
+		// JPanel attendanceInfoPanel = new JPanel();
+		// attendanceInfoPanel.setBackground(new Color(128, 128, 128));
+		// attendanceInfoPanel.setBounds(270, 84, 794, 306);
+		// attendanceInfoPanel.setLayout(null);
+		// attendanceInfoPanel.setVisible(false);
+		// contentPane.add(attendanceInfoPanel);
 
 		JPanel clubsPanel = new JPanel();
 		clubsPanel.setBackground(new Color(128, 128, 128));
@@ -329,12 +329,12 @@ public class StudentFrame extends JFrame {
 			public void actionPerformed(ActionEvent e){
 				personalInfoPanel.setVisible(true);
 				educationalInfoPanel.setVisible(false);
-				attendanceInfoPanel.setVisible(false);
+				//attendanceInfoPanel.setVisible(false);
 				clubsPanel.setVisible(false);
 			}
 		});
 		personalInfoButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		personalInfoButton.setBounds(10, 85, 250, 53);
+		personalInfoButton.setBounds(10, 142, 250, 52);
 		contentPane.add(personalInfoButton);
 		
 		JButton educationalInfoButton = new JButton("Educational Information");
@@ -342,38 +342,38 @@ public class StudentFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				personalInfoPanel.setVisible(false);
 				educationalInfoPanel.setVisible(true);
-				attendanceInfoPanel.setVisible(false);
+				//attendanceInfoPanel.setVisible(false);
 				clubsPanel.setVisible(false);
 			}
 		});
 		educationalInfoButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		educationalInfoButton.setBounds(10, 171, 250, 52);
+		educationalInfoButton.setBounds(10, 205, 250, 52);
 		contentPane.add(educationalInfoButton);
 		
-		JButton attendanceInfoButton = new JButton("Attendance Information");
-		attendanceInfoButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				personalInfoPanel.setVisible(false);
-				educationalInfoPanel.setVisible(false);
-				attendanceInfoPanel.setVisible(true);
-				clubsPanel.setVisible(false);
-			}
-		});
-		attendanceInfoButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		attendanceInfoButton.setBounds(10, 254, 250, 52);
-		contentPane.add(attendanceInfoButton);
+		// JButton attendanceInfoButton = new JButton("Attendance Information");
+		// attendanceInfoButton.addActionListener(new ActionListener() {
+		// 	public void actionPerformed(ActionEvent e) {
+		// 		personalInfoPanel.setVisible(false);
+		// 		educationalInfoPanel.setVisible(false);
+		// 		attendanceInfoPanel.setVisible(true);
+		// 		clubsPanel.setVisible(false);
+		// 	}
+		// });
+		// attendanceInfoButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		// attendanceInfoButton.setBounds(10, 254, 250, 52);
+		// contentPane.add(attendanceInfoButton);
 		
 		JButton clubsButton = new JButton("Clubs Registered");
 		clubsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				personalInfoPanel.setVisible(false);
 				educationalInfoPanel.setVisible(false);
-				attendanceInfoPanel.setVisible(false);
+				//attendanceInfoPanel.setVisible(false);
 				clubsPanel.setVisible(true);
 			}
 		});
 		clubsButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		clubsButton.setBounds(10, 338, 250, 52);
+		clubsButton.setBounds(10, 268, 250, 52);
 		contentPane.add(clubsButton);
 				
 	}

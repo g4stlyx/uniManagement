@@ -57,7 +57,7 @@ public class FileStuff {
                     + "-" + pwd + "-" + faculty + "-" + department + "-" + gradeLevel + "-" + annualPayment + "-"
                     + courses + "-" + grades + "-" + clubs;
 
-            // TODO: first line error handling doesnt work here
+            // TODO: error handling for the first line doesnt work here, while editing it creates an empty line at the top
             while((line = reader.readLine()) != null){
                 // if(currentLine == userId && userId == 1 ){
                 //     content.append(newStudentData); // to avoid white spaces in first line in the text file

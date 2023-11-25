@@ -27,7 +27,7 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 	
 	boolean isStudentLoginSuccessful = false;
 	boolean isAdminLoginSuccessful = false;
-	boolean isLibraryLoginSuccessful = false;
+	//boolean isLibraryLoginSuccessful = false;
 	boolean isInstuctorLoginSuccessful = false;
 	String studentLoggedIn;
 	
@@ -106,7 +106,6 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 		String passwordInput = String.valueOf(passwordField.getPassword());
 
 		if(roleSelected.equals("Student")){
-
 			ArrayList<String> students = FileStuff.readTxt("db/_students.txt");
 			
 			for(int i=0;i<students.size();i++){
@@ -120,19 +119,26 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 					isStudentLoginSuccessful = false;
 				}
 			}
-
 		}
 
 		if(roleSelected.equals("Instructor")){
 			
 		}
 
-		if(roleSelected.equals("Library Staff")){
+		// if(roleSelected.equals("Library Staff")){
 		
-		}
+		// }
 		
 		if(roleSelected.equals("Admin")){
-
+			ArrayList<String> adminArr = FileStuff.readTxt("db/admin.txt");
+			String admin = adminArr.get(0);
+			if(admin.split("-")[0].trim().equals(usernameInput) && admin.split("-")[1].trim().equals(passwordInput)){
+				isAdminLoginSuccessful = true;
+			}
+			System.out.println(admin.split("-")[0]);
+			System.out.println(admin.split("-")[1]);
+			System.out.println(admin);
+			System.out.println(isAdminLoginSuccessful);
 		}
 		
 	}
@@ -145,12 +151,11 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 				return;
 			}
 			if(isAdminLoginSuccessful){
+				new AdminFrame().setVisible(true);
+				dispose();
 				return;
 			}
 			if(isInstuctorLoginSuccessful){
-				return;
-			}
-			if(isLibraryLoginSuccessful){
 				return;
 			}
 			else{
