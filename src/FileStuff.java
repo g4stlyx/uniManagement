@@ -32,14 +32,14 @@ public class FileStuff {
         }
     }
 
-    public static ArrayList<String> editStudentsTxt(int userId,String newPhone,String newEmail,String newAddress){
+    public static ArrayList<String> editTxt(int userId,String newPhone,String newEmail,String newAddress,String pathname){
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("db/_students.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader(pathname));
             StringBuilder content = new StringBuilder();
             String line;
             int currentLine = 1;
 
-            ArrayList<String> studentData = readTxt("db/_students.txt");
+            ArrayList<String> studentData = readTxt(pathname);
             
             String studentDataToEdit = studentData.get(userId-1);
             
@@ -70,7 +70,7 @@ public class FileStuff {
                 currentLine++;
             }
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter("db/_students.txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(pathname));
             writer.write(content.toString());
 
             System.out.println(studentData);

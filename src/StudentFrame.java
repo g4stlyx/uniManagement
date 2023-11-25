@@ -304,7 +304,7 @@ public class StudentFrame extends JFrame {
 					// write to the students.txt
 					// warning
 					int idInt = Integer.parseInt(idField.getText().trim()); // trim çünkü idField.getText()=" 5"
-					FileStuff.editStudentsTxt(idInt,phoneField.getText(),emailField.getText(),addressField.getText());
+					FileStuff.editTxt(idInt,phoneField.getText(),emailField.getText(),addressField.getText(),"db/_students.txt");
 					passwordInput1 = "";
 					passwordInput2 = "";
 				}
