@@ -11,11 +11,10 @@ import java.util.Scanner;
 public class FileStuff {
     FileStuff(){}
 
-    public static ArrayList<String> readStudentsTxt(){
+    public static ArrayList<String> readTxt(String pathname){
         try { 
-            // TODO: pathname'i parametre olarak al, bir func tüm dosyaları okusun
-            File studentsTxt = new File("db/_students.txt");
-            Scanner scanner = new Scanner(studentsTxt);
+            File txtFile = new File(pathname);
+            Scanner scanner = new Scanner(txtFile);
             ArrayList<String> dataTotal = new ArrayList<String>();
             while (scanner.hasNextLine()) {
                 String data = scanner.nextLine();
@@ -40,7 +39,7 @@ public class FileStuff {
             String line;
             int currentLine = 1;
 
-            ArrayList<String> studentData = readStudentsTxt();
+            ArrayList<String> studentData = readTxt("db/_students.txt");
             
             String studentDataToEdit = studentData.get(userId-1);
             

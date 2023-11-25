@@ -107,10 +107,10 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 
 		if(roleSelected.equals("Student")){
 
-			ArrayList<String> students = FileStuff.readStudentsTxt();
+			ArrayList<String> students = FileStuff.readTxt("db/_students.txt");
 			
 			for(int i=0;i<students.size();i++){
-				String student = FileStuff.readStudentsTxt().get(i);
+				String student = FileStuff.readTxt("db/_students.txt").get(i);
 				if(student.split("-")[5].equals(usernameInput) && student.split("-")[6].equals(passwordInput)){
 					isStudentLoginSuccessful = true;
 					studentLoggedIn = student;
