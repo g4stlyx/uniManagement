@@ -11,38 +11,36 @@ import java.util.Scanner;
 public class FileStuff {
     FileStuff(){}
 
-    public static ArrayList<String> readTxt(String pathname){
-        try { 
+    public static ArrayList<String> readTxt(String pathname) {
+        try {
             File txtFile = new File(pathname);
             Scanner scanner = new Scanner(txtFile);
             ArrayList<String> dataTotal = new ArrayList<String>();
             while (scanner.hasNextLine()) {
                 String data = scanner.nextLine();
-                dataTotal.add("\n"+data);
+                dataTotal.add("\n" + data);
             }
 
             scanner.close();
             return dataTotal;
-        }
-        catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
             System.out.println(ex.getMessage());
             ArrayList<String> a = new ArrayList<String>();
             a.add(ex.getMessage());
-            return a; 
+            return a;
         }
     }
 
-    public static ArrayList<String> editTxt(int userId,String newPhone,String newEmail,String newAddress,String pathname){
+    public static ArrayList<String> editStudentsTxt(int userId, String newPhone, String newEmail, String newAddress) {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(pathname));
+            BufferedReader reader = new BufferedReader(new FileReader("db/_students.txt"));
             StringBuilder content = new StringBuilder();
             String line;
             int currentLine = 1;
 
-            ArrayList<String> studentData = readTxt(pathname);
-            
-            String studentDataToEdit = studentData.get(userId-1);
-            
+            ArrayList<String> studentData = readTxt("db/_students.txt");
+            String studentDataToEdit = studentData.get(userId - 1);
+
             String id = studentDataToEdit.split("-")[0];
             String name = studentDataToEdit.split("-")[1];
             String number = studentDataToEdit.split("-")[5];
@@ -55,14 +53,20 @@ public class FileStuff {
             String grades = studentDataToEdit.split("-")[12];
             String clubs = studentDataToEdit.split("-")[13];
 
-            String newStudentData = id+"-"+name+"-"+newAddress+"-"+newPhone+"-"+newEmail+"-"+number+"-"+pwd+"-"+faculty+"-"+department+"-"+gradeLevel+"-"+annualPayment+"-"+courses+"-"+grades+"-"+clubs;
+            String newStudentData = id + "-" + name + "-" + newAddress + "-" + newPhone + "-" + newEmail + "-" + number
+                    + "-" + pwd + "-" + faculty + "-" + department + "-" + gradeLevel + "-" + annualPayment + "-"
+                    + courses + "-" + grades + "-" + clubs;
 
-            while((line= reader.readLine()) != null){
-                if(currentLine == userId ){
+            // TODO: first line error handling doesnt work here
+            while((line = reader.readLine()) != null){
+                // if(currentLine == userId && userId == 1 ){
+                //     content.append(newStudentData); // to avoid white spaces in first line in the text file
+                // }
+                if(currentLine == userId){
                     content.append(newStudentData).append("\n");
                 }
                 else if(currentLine == (userId-1)){
-                    content.append(line);
+                    content.append(line); // to avoid white spaces in txt file
                 }
                 else{
                     content.append(line).append("\n");
@@ -70,24 +74,18 @@ public class FileStuff {
                 currentLine++;
             }
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(pathname));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("db/_students.txt"));
             writer.write(content.toString());
-
-            System.out.println(studentData);
-            System.out.println(studentDataToEdit);
-            System.out.println(newStudentData);
 
             reader.close();
             writer.close();
             return studentData;
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
             ArrayList<String> a = new ArrayList<String>();
             a.add(ex.getMessage());
-            return a; 
+            return a;
         }
     }
-
 
 }

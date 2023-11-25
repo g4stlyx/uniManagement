@@ -36,8 +36,6 @@ public class StudentFrame extends JFrame {
 	private JTextField gradeLevelField;
 	private JTextField annualFeeField;
 
-	//! dont forget to uncomment all panels after you done editing, eg. you dont have the educational panel rn
-
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -296,17 +294,14 @@ public class StudentFrame extends JFrame {
 		personalInfoPanel.add(saveButton);
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// save everything and write to the students.txt
-				// then set name,phone,email,address
 				String passwordInput1 = String.valueOf(passwordField1.getPassword());
 				String passwordInput2 = String.valueOf(passwordField2.getPassword());
 				if(passwordInput1.equals(student.split("-")[6]) && passwordInput2.equals(student.split("-")[6])){
-					// write to the students.txt
-					// warning
 					int idInt = Integer.parseInt(idField.getText().trim()); // trim çünkü idField.getText()=" 5"
-					FileStuff.editTxt(idInt,phoneField.getText(),emailField.getText(),addressField.getText(),"db/_students.txt");
-					passwordInput1 = "";
-					passwordInput2 = "";
+					FileStuff.editStudentsTxt(idInt,phoneField.getText(),emailField.getText(),addressField.getText());
+					passwordField1.setText("");
+					passwordField2.setText("");
+					JOptionPane.showMessageDialog(contentPane,"Student Edited Successfully.","Success",JOptionPane.INFORMATION_MESSAGE);
 				}
 				else{
 					JOptionPane.showMessageDialog(contentPane,"Incorrect Password!","Bad Request!",JOptionPane.ERROR_MESSAGE);

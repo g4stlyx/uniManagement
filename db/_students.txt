@@ -1,6 +1,6 @@
 1-Alice Johnson-12399 Maple Street-555 123 459999-alice@999email.com-210303001-pwd-Science-Biology-2-100000-Biology 101_Chemistry Fundamentals_Introduction to Evolution-85_98_77-Science Club_Debate Society
-2-Ben Smith-666 Oak Avenue-555 987 6543-ben@email.com-210303002-pwd-Arts-Literature-4-120000-Literature Survey_Creative Writing-54_67-Arts Appreciation_Book Club
-3-Carla Garcia-888 Elm Street-555 666 7788-carla@editedEmail.com-210303003-pwd-Business-Marketing-3-110000-Marketing Principles_Business Ethics-66_55-Entrepreneurship Club_Marketing Society
+2-Ben Smith-456 Oak Avenue-555 987 6543-ben@email.com-210303002-pwd-Arts-Literature-4-120000-Literature Survey_Creative Writing-54_67-Arts Appreciation_Book Club
+3-Carla Garcia-999 Elm Street-555 666 7788-carla@editedEmail.com-210303003-pwd-Business-Marketing-3-110000-Marketing Principles_Business Ethics-66_55-Entrepreneurship Club_Marketing Society
 4-David Lee-1010 Pine Street-555 234 5678-david@email.com-210303004-pwd-Engineering-Civil Engineering-1-130000-Civil Engineering Basics_Structural Design-16_18-Engineering Society_Bridge Building Club
 5-Emily Chen-1212 Cedar Street-555 876 5432-emily@email.com-210303005-pwd-Science-Chemistry-0-125000-Organic Chemistry_Analytical Chemistry-80_63-Chemistry Society_Research Club
 6-Frank Wilson-1414 Birch Street-555 345 6789-frank@email.com-210303006-pwd-Arts-Fine Arts-2-115000-Fine Arts History_Sculpture Techniques-35_55-Art Club_Pottery Society
