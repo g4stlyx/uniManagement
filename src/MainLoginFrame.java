@@ -27,7 +27,6 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 	
 	boolean isStudentLoginSuccessful = false;
 	boolean isAdminLoginSuccessful = false;
-	//boolean isLibraryLoginSuccessful = false;
 	boolean isInstuctorLoginSuccessful = false;
 	String studentLoggedIn;
 	
@@ -124,10 +123,6 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 		if(roleSelected.equals("Instructor")){
 			
 		}
-
-		// if(roleSelected.equals("Library Staff")){
-		
-		// }
 		
 		if(roleSelected.equals("Admin")){
 			ArrayList<String> adminArr = FileStuff.readTxt("db/admin.txt");
@@ -135,10 +130,6 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 			if(admin.split("-")[0].trim().equals(usernameInput) && admin.split("-")[1].trim().equals(passwordInput)){
 				isAdminLoginSuccessful = true;
 			}
-			System.out.println(admin.split("-")[0]);
-			System.out.println(admin.split("-")[1]);
-			System.out.println(admin);
-			System.out.println(isAdminLoginSuccessful);
 		}
 		
 	}

@@ -18,6 +18,7 @@ import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
 public class StudentFrame extends JFrame {
 
@@ -172,7 +173,6 @@ public class StudentFrame extends JFrame {
 		}
 		
 
-		
 		// **********************************
 		// personalInfo
 		JPanel personalInfoPanel = new JPanel();
@@ -309,13 +309,8 @@ public class StudentFrame extends JFrame {
 			}
 		});
 
-		// JPanel attendanceInfoPanel = new JPanel();
-		// attendanceInfoPanel.setBackground(new Color(128, 128, 128));
-		// attendanceInfoPanel.setBounds(270, 84, 794, 306);
-		// attendanceInfoPanel.setLayout(null);
-		// attendanceInfoPanel.setVisible(false);
-		// contentPane.add(attendanceInfoPanel);
-
+		// ********************
+		// clubs
 		JPanel clubsPanel = new JPanel();
 		clubsPanel.setBackground(new Color(128, 128, 128));
 		clubsPanel.setBounds(270, 84, 794, 306);
@@ -323,13 +318,43 @@ public class StudentFrame extends JFrame {
 		clubsPanel.setVisible(false);
 		contentPane.add(clubsPanel);
 		
+		JPanel clubsPanel2 = new JPanel();
+		clubsPanel2.setBackground(new Color(128, 128, 128));
+		clubsPanel2.setBounds(0, 0, 794, 306);
+		clubsPanel.add(clubsPanel2);
+		
+		String[] clubsArray = student.split("-")[13].split("_");
+		String[] clubsDescriptionsArray = student.split("-")[14].split("_");
+		
+		for(int i=0;i<clubsArray.length;i++){
+			JLabel[] clubsLabels = new JLabel[clubsArray.length];
+			clubsLabels[i] = new JLabel(clubsArray[i]);
+			clubsLabels[i].setBorder(BorderFactory.createEmptyBorder(0,150,0,150)); // for the linespacing
+			clubsLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
+			clubsLabels[i].setFont(new Font("Tahoma", Font.BOLD, 18));
+						
+			JLabel[] clubsDescriptionsLabels = new JLabel[clubsArray.length];
+			clubsDescriptionsLabels[i] = new JLabel("-"+clubsDescriptionsArray[i]);
+			clubsDescriptionsLabels[i].setBorder(BorderFactory.createEmptyBorder(0,150,0,150)); // for the linespacing
+			clubsDescriptionsLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
+			clubsDescriptionsLabels[i].setFont(new Font("Tahoma", Font.BOLD, 14));
+			
+			clubsPanel2.add(clubsLabels[i]);
+			clubsPanel2.add(clubsDescriptionsLabels[i]);
+	
+			clubsPanel.revalidate();
+			clubsPanel.repaint();
+			
+			revalidate();
+			repaint();
+		}
+		
 		// left buttons
 		JButton personalInfoButton = new JButton("Personal Information");
 		personalInfoButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				personalInfoPanel.setVisible(true);
 				educationalInfoPanel.setVisible(false);
-				//attendanceInfoPanel.setVisible(false);
 				clubsPanel.setVisible(false);
 			}
 		});
@@ -342,7 +367,6 @@ public class StudentFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				personalInfoPanel.setVisible(false);
 				educationalInfoPanel.setVisible(true);
-				//attendanceInfoPanel.setVisible(false);
 				clubsPanel.setVisible(false);
 			}
 		});
@@ -350,25 +374,11 @@ public class StudentFrame extends JFrame {
 		educationalInfoButton.setBounds(10, 205, 250, 52);
 		contentPane.add(educationalInfoButton);
 		
-		// JButton attendanceInfoButton = new JButton("Attendance Information");
-		// attendanceInfoButton.addActionListener(new ActionListener() {
-		// 	public void actionPerformed(ActionEvent e) {
-		// 		personalInfoPanel.setVisible(false);
-		// 		educationalInfoPanel.setVisible(false);
-		// 		attendanceInfoPanel.setVisible(true);
-		// 		clubsPanel.setVisible(false);
-		// 	}
-		// });
-		// attendanceInfoButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		// attendanceInfoButton.setBounds(10, 254, 250, 52);
-		// contentPane.add(attendanceInfoButton);
-		
 		JButton clubsButton = new JButton("Clubs Registered");
 		clubsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				personalInfoPanel.setVisible(false);
 				educationalInfoPanel.setVisible(false);
-				//attendanceInfoPanel.setVisible(false);
 				clubsPanel.setVisible(true);
 			}
 		});

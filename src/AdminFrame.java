@@ -7,9 +7,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-
 public class AdminFrame extends JFrame {
-
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
@@ -28,7 +26,6 @@ public class AdminFrame extends JFrame {
 	}
 
 	public AdminFrame() {
-		
 		setTitle("University Management System - Admin");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1100, 462);
@@ -44,4 +41,3 @@ public class AdminFrame extends JFrame {
 		contentPane.add(welcomeLabel);				
 	}
 }
-

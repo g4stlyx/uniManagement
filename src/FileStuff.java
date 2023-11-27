@@ -18,7 +18,7 @@ public class FileStuff {
             ArrayList<String> dataTotal = new ArrayList<String>();
             while (scanner.hasNextLine()) {
                 String data = scanner.nextLine();
-                dataTotal.add("\n" + data);
+                dataTotal.add("\n" + data); // ! burası ilk baştaki boşluğun sebebi olabilir
             }
 
             scanner.close();
