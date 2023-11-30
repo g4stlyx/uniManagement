@@ -29,6 +29,7 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 	boolean isAdminLoginSuccessful = false;
 	boolean isInstuctorLoginSuccessful = false;
 	String studentLoggedIn;
+	String instructorLoggedIn;
 	
 
 	public static void main(String[] args) {
@@ -121,7 +122,19 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 		}
 
 		if(roleSelected.equals("Instructor")){
+			ArrayList<String> instructors = FileStuff.readTxt("db/_instructors.txt");
 			
+			for(int i=0;i<instructors.size();i++){
+				String instructor = FileStuff.readTxt("db/_instructors.txt").get(i);
+				if(instructor.split("-")[7].equals(usernameInput) && instructor.split("-")[8].equals(passwordInput)){
+					isInstuctorLoginSuccessful = true;
+					instructorLoggedIn = instructor;
+					break;
+				}
+				else{
+					isInstuctorLoginSuccessful = false;
+				}
+			}
 		}
 		
 		if(roleSelected.equals("Admin")){
@@ -147,6 +160,8 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 				return;
 			}
 			if(isInstuctorLoginSuccessful){
+				new InstructorFrame(instructorLoggedIn).setVisible(true);
+				dispose();
 				return;
 			}
 			else{
@@ -154,8 +169,5 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 			}
 		}
 	};
-
-
-
 
 }

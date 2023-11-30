@@ -1,6 +1,8 @@
 /AdminFrame$1.class
 /AdminFrame.class
 /FileStuff.class
+/InstructorFrame$1.class
+/InstructorFrame.class
 /Main.class
 /MainLoginFrame$1.class
 /MainLoginFrame$2.class
@@ -14,4 +16,3 @@
 /StudentFrame$5.class
 /StudentFrame.class
 /Teacher.class
-/createDB.sql
