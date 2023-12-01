@@ -17,17 +17,8 @@ public class FileStuff {
             Scanner scanner = new Scanner(txtFile);
             ArrayList<String> dataTotal = new ArrayList<String>();
             while (scanner.hasNextLine()) {
-                String data = scanner.nextLine();
-                
-                // added later
-                // int i=0;
-                // if(i==0){
-                //     dataTotal.add(data);
-                //     i++;
-                // }
-                // dataTotal.add("\n" + data);
-                
-                dataTotal.add("\n" + data); // ! burası ilk baştaki boşluğun sebebi olabilir
+                String data = scanner.nextLine();                
+                dataTotal.add("\n" + data); //! burası ilk baştaki boşluğun sebebi olabilir
             }
             scanner.close();
             return dataTotal;
@@ -60,10 +51,11 @@ public class FileStuff {
             String courses = studentDataToEdit.split("-")[11];
             String grades = studentDataToEdit.split("-")[12];
             String clubs = studentDataToEdit.split("-")[13];
+            String clubsDescriptions = studentDataToEdit.split("-")[14];
 
             String newStudentData = id + "-" + name + "-" + newAddress + "-" + newPhone + "-" + newEmail + "-" + number
                     + "-" + pwd + "-" + faculty + "-" + department + "-" + gradeLevel + "-" + annualPayment + "-"
-                    + courses + "-" + grades + "-" + clubs;
+                    + courses + "-" + grades + "-" + clubs + "-" + clubsDescriptions;
 
             // TODO: error handling for the first line doesnt work here, while editing it creates an empty line at the top
             while((line = reader.readLine()) != null){
