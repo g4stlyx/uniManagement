@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -30,6 +31,8 @@ public class InstructorFrame extends JFrame {
 	private JTextField usernameField;
 	private JPasswordField passwordField1;
 	private JPasswordField passwordField2;
+	
+	private JList coursesList;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -202,33 +205,28 @@ public class InstructorFrame extends JFrame {
 		gradesArea.setBounds(615, 48, 127, 221);
 		studentsPanel.add(gradesArea);
 
-		JPanel coursesArea = new JPanel();
-		coursesArea.setBounds(199, 48, 387, 221);
-		studentsPanel.add(coursesArea);
-
+		coursesList = new JList();
+		coursesList.setBounds(199, 48, 387, 221);
+		DefaultListModel coursesListModel = new DefaultListModel();
+		coursesList.setModel(coursesListModel);
+		
 		JButton selectStudentButton = new JButton("Select Student");
 		selectStudentButton.setFont(new Font("Tahoma", Font.BOLD, 16));
 		selectStudentButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				coursesArea.removeAll();
+				coursesListModel.clear();
 				gradesArea.removeAll();
 				
 				int selectedIndex = studentsList.getSelectedIndex();
 				String selectedStudent = FileStuff.readTxt("db/_students.txt").get(selectedIndex);
 				String[] selectedStudentCoursesArray = selectedStudent.split("-")[11].split("_");
 				String[] selectedStudentGradesArray = selectedStudent.split("-")[12].split("_");
-				
-				for(int i=0;i<selectedStudentCoursesArray.length;i++){
-					JLabel[] coursesLabels = new JLabel[selectedStudentCoursesArray.length];
-					coursesLabels[i] = new JLabel("<html>"+selectedStudentCoursesArray[i]+"<br></html>");
-					coursesLabels[i].setBorder(BorderFactory.createEmptyBorder(0,30,0,30));
-					coursesLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
-					coursesLabels[i].setFont(new Font("Tahoma", Font.BOLD, 15));
-					coursesArea.add(coursesLabels[i]);
 
-					coursesArea.revalidate();
-					coursesArea.repaint();
-				}
+				coursesList.setListData(selectedStudentCoursesArray);
+				studentsPanel.add(coursesList);
+				
+				coursesList.revalidate();
+				coursesList.repaint();
 
 				
 		// TODO: gradesLabels ve area yerine textfield'lar kullanılabilir, ders seçtikten sonra bir textfield gelir
