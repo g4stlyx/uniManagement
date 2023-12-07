@@ -63,7 +63,7 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 		contentPane.add(mainHeader);
 
 
-		String[] roles = {"Admin","Student","Instructor","Library Staff"};
+		String[] roles = {"Admin","Student","Instructor"};
 		JComboBox rolesCombobox = new JComboBox(roles);
 		rolesCombobox.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		rolesCombobox.setBounds(339, 264, 249, 36);

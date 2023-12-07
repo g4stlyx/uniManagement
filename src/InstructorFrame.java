@@ -10,11 +10,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.TextField;
+
 import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -33,6 +38,10 @@ public class InstructorFrame extends JFrame {
 	private JPasswordField passwordField2;
 	
 	private JList coursesList;
+
+	private int selectedIndex;
+	private JTextField[] gradesTextFields;
+	private String[] selectedStudentCoursesArray;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -61,7 +70,7 @@ public class InstructorFrame extends JFrame {
 		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomeLabel.setFont(new Font("Tahoma", Font.BOLD, 34));
 		welcomeLabel.setBounds(31, 11, 927, 63);
-		contentPane.add(welcomeLabel);				
+		contentPane.add(welcomeLabel);
 		
 		// // ********
 		// // personalInfo
@@ -202,13 +211,15 @@ public class InstructorFrame extends JFrame {
 		studentsPanel.add(studentsList);
 
 		JPanel gradesArea = new JPanel();
-		gradesArea.setBounds(615, 48, 127, 221);
+		gradesArea.setBounds(582, 11, 190, 240);
 		studentsPanel.add(gradesArea);
 
 		coursesList = new JList();
-		coursesList.setBounds(199, 48, 387, 221);
+		coursesList.setBounds(173, 11, 399, 240);
+		coursesList.setFont(new Font("Tahoma", Font.BOLD, 15));
 		DefaultListModel coursesListModel = new DefaultListModel();
 		coursesList.setModel(coursesListModel);
+		studentsPanel.add(coursesList);
 		
 		JButton selectStudentButton = new JButton("Select Student");
 		selectStudentButton.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -217,37 +228,75 @@ public class InstructorFrame extends JFrame {
 				coursesListModel.clear();
 				gradesArea.removeAll();
 				
-				int selectedIndex = studentsList.getSelectedIndex();
+				selectedIndex = studentsList.getSelectedIndex();
 				String selectedStudent = FileStuff.readTxt("db/_students.txt").get(selectedIndex);
-				String[] selectedStudentCoursesArray = selectedStudent.split("-")[11].split("_");
+				selectedStudentCoursesArray = selectedStudent.split("-")[11].split("_");
 				String[] selectedStudentGradesArray = selectedStudent.split("-")[12].split("_");
-
+				
+				List<String> gradesList = new ArrayList<String>();		
+				for(int i=0;i<selectedStudentGradesArray.length;i++){
+					String[] temp = selectedStudentGradesArray[i].split(",");
+					for(int j=0;j<2;j++){
+						gradesList.add(temp[j]);
+					}
+				}
+				
 				coursesList.setListData(selectedStudentCoursesArray);
 				studentsPanel.add(coursesList);
 				
-				coursesList.revalidate();
-				coursesList.repaint();
-
-				
-		// TODO: gradesLabels ve area yerine textfield'lar kullanılabilir, ders seçtikten sonra bir textfield gelir
-				for(int i=0;i<selectedStudentGradesArray.length;i++){
-					JLabel[] gradesLabels = new JLabel[selectedStudentGradesArray.length];
-					gradesLabels[i] = new JLabel(selectedStudentGradesArray[i]);
-					gradesLabels[i].setBorder(BorderFactory.createEmptyBorder(0,30,0,30));
-					gradesLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
-					gradesLabels[i].setFont(new Font("Tahoma", Font.BOLD, 15));
-					gradesArea.add(gradesLabels[i]);
-
-					gradesArea.revalidate();
-					gradesArea.repaint();
+				gradesTextFields = new JTextField[gradesList.size()];
+				for(int i=0;i<gradesList.size();i++){
+					gradesTextFields[i] = new JTextField(gradesList.get(i));
+					gradesTextFields[i].setBorder(BorderFactory.createEmptyBorder(0,30,0,30));
+					gradesTextFields[i].setHorizontalAlignment(SwingConstants.CENTER);
+					gradesTextFields[i].setFont(new Font("Tahoma", Font.BOLD, 14));
+					gradesArea.add(gradesTextFields[i]);
 				}
 				
 				revalidate();
 				repaint();
 			}
 		});
+		System.out.println(gradesTextFields);
+
 		selectStudentButton.setBounds(10, 262, 153, 33);
 		studentsPanel.add(selectStudentButton);
+		
+		JButton editStudentButton = new JButton("Edit Student");
+		editStudentButton.setFont(new Font("Tahoma", Font.BOLD, 16));
+		editStudentButton.setBounds(585, 262, 153, 33);
+		editStudentButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<String> combinedGrades = new ArrayList<>();
+				
+				for(int i=0;i<selectedStudentCoursesArray.length;i++){
+					StringBuilder singleCourseGrades = new StringBuilder();
+					
+					for(int j=0;j<gradesTextFields.length/selectedStudentCoursesArray.length;j++){
+						int index = i * (gradesTextFields.length / selectedStudentCoursesArray.length) + j;	
+						if(index < gradesTextFields.length) {
+							singleCourseGrades.append(gradesTextFields[index].getText());
+							if(j != gradesTextFields.length / selectedStudentCoursesArray.length - 1){
+								singleCourseGrades.append(","); // append , if it is not the last grade of the certain course
+							}
+						}
+					}
+					combinedGrades.add(singleCourseGrades.toString());
+				}
+
+				StringBuilder newGrades = new StringBuilder();
+				for(int i = 0; i < combinedGrades.size(); i++){
+					newGrades.append(combinedGrades.get(i));
+					if(i != combinedGrades.size()-1){ // if it is not the last course, append _
+						newGrades.append("_");
+					}
+				}
+
+				FileStuff.editStudentGrades(selectedIndex+1,newGrades.toString());
+		 		JOptionPane.showMessageDialog(contentPane,"Student's Grades Edited Successfully.","Success",JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		studentsPanel.add(editStudentButton);
 
 		// left buttons
 		JButton personalInfoButton = new JButton("Personal Information");
@@ -271,5 +320,8 @@ public class InstructorFrame extends JFrame {
 		studentsInfoButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		studentsInfoButton.setBounds(10, 205, 250, 52);
 		contentPane.add(studentsInfoButton);
+
+		
+
 	}
 }
