@@ -1,6 +1,5 @@
 import java.awt.Color;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -8,20 +7,15 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
-import java.awt.TextField;
-
 import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.awt.event.ActionEvent;
-import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 
@@ -174,7 +168,6 @@ public class InstructorFrame extends JFrame {
 		passwordLabel2.setBounds(280, 240, 185, 29);
 		personalInfoPanel.add(passwordLabel2);
 
-		// save
 		JButton saveButton = new JButton("SAVE");
 		saveButton.setFont(new Font("Tahoma", Font.BOLD, 24));
 		saveButton.setBounds(670, 199, 114, 70);
@@ -257,7 +250,6 @@ public class InstructorFrame extends JFrame {
 				repaint();
 			}
 		});
-		System.out.println(gradesTextFields);
 
 		selectStudentButton.setBounds(10, 262, 153, 33);
 		studentsPanel.add(selectStudentButton);
@@ -309,6 +301,7 @@ public class InstructorFrame extends JFrame {
 		personalInfoButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		personalInfoButton.setBounds(10, 142, 250, 52);
 		contentPane.add(personalInfoButton);
+		
 		
 		JButton studentsInfoButton = new JButton("Students Information");
 		studentsInfoButton.addActionListener(new ActionListener() {

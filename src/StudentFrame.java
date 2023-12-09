@@ -1,13 +1,10 @@
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -144,7 +141,6 @@ public class StudentFrame extends JFrame {
 		coursesArea.setBounds(330, 48, 306, 221);
 		educationalInfoPanel.add(coursesArea);
 		
-
 		String[] coursesArray = student.split("-")[11].split("_");
 		String[] gradesArray = student.split("-")[12].split("_");
 
@@ -297,7 +293,7 @@ public class StudentFrame extends JFrame {
 				String passwordInput1 = String.valueOf(passwordField1.getPassword());
 				String passwordInput2 = String.valueOf(passwordField2.getPassword());
 				if(passwordInput1.equals(student.split("-")[6]) && passwordInput2.equals(student.split("-")[6])){
-					int idInt = Integer.parseInt(idField.getText().trim()); // trim çünkü idField.getText()=" 5"
+					int idInt = Integer.parseInt(idField.getText().trim());
 					FileStuff.editStudentsTxt(idInt,phoneField.getText(),emailField.getText(),addressField.getText());
 					passwordField1.setText("");
 					passwordField2.setText("");
@@ -329,13 +325,13 @@ public class StudentFrame extends JFrame {
 		for(int i=0;i<clubsArray.length;i++){
 			JLabel[] clubsLabels = new JLabel[clubsArray.length];
 			clubsLabels[i] = new JLabel(clubsArray[i]);
-			clubsLabels[i].setBorder(BorderFactory.createEmptyBorder(0,150,0,150)); // for the linespacing
+			clubsLabels[i].setBorder(BorderFactory.createEmptyBorder(0,150,0,150));
 			clubsLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
 			clubsLabels[i].setFont(new Font("Tahoma", Font.BOLD, 18));
 						
 			JLabel[] clubsDescriptionsLabels = new JLabel[clubsArray.length];
 			clubsDescriptionsLabels[i] = new JLabel("-"+clubsDescriptionsArray[i]);
-			clubsDescriptionsLabels[i].setBorder(BorderFactory.createEmptyBorder(0,150,0,150)); // for the linespacing
+			clubsDescriptionsLabels[i].setBorder(BorderFactory.createEmptyBorder(0,150,0,150));
 			clubsDescriptionsLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
 			clubsDescriptionsLabels[i].setFont(new Font("Tahoma", Font.BOLD, 14));
 			

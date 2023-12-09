@@ -52,29 +52,13 @@ public class AdminFrame extends JFrame {
 		addStudentButton.setBounds(32, 106, 200, 35);
 		contentPane.add(addStudentButton);
 		
-		JButton editStudentsPersonalInfoButton = new JButton("Edit Students' Personal Information");
-		editStudentsPersonalInfoButton.setFont(new Font("Tahoma", Font.BOLD, 22));
-		editStudentsPersonalInfoButton.setBounds(32, 152, 431, 40);
-		contentPane.add(editStudentsPersonalInfoButton);
-		
-		JButton editStudentsEducationalInfoButton = new JButton("Edit Students' Educational Information");
-		editStudentsEducationalInfoButton.setFont(new Font("Tahoma", Font.BOLD, 22));
-		editStudentsEducationalInfoButton.setBounds(32, 203, 463, 40);
-		contentPane.add(editStudentsEducationalInfoButton);
-		
-		JButton editInstuctorsPersonalInfoButton = new JButton("Edit Instructors' Personal Information");
-		editInstuctorsPersonalInfoButton.setFont(new Font("Tahoma", Font.BOLD, 22));
-		editInstuctorsPersonalInfoButton.setBounds(541, 152, 468, 40);
-		contentPane.add(editInstuctorsPersonalInfoButton);
-		
-		JButton addInstructor = new JButton("Add Instructor");
-		addInstructor.setFont(new Font("Tahoma", Font.BOLD, 22));
-		addInstructor.setBounds(543, 106, 200, 35);
-		contentPane.add(addInstructor);
-		
-		JButton editInstructorsEducationalInfoButton = new JButton("Edit Instructors' Educational Information");
-		editInstructorsEducationalInfoButton.setFont(new Font("Tahoma", Font.BOLD, 22));
-		editInstructorsEducationalInfoButton.setBounds(541, 203, 505, 40);
-		contentPane.add(editInstructorsEducationalInfoButton);
+		JButton addInstructorButton = new JButton("Add Instructor");
+		addInstructorButton.setFont(new Font("Tahoma", Font.BOLD, 22));
+		addInstructorButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		addInstructorButton.setBounds(543, 106, 200, 35);
+		contentPane.add(addInstructorButton);
 	}
 }

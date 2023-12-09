@@ -196,5 +196,16 @@ public class FileStuff {
         }
     }
 
+    public static void addUser(String userData,String pathname){
+        try{
+            FileWriter writer = new FileWriter(pathname, true); // true makes it protect old data
+            writer.append("\n"+userData);
+            writer.close();
+        } 
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
 
 }
