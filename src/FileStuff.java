@@ -24,9 +24,7 @@ public class FileStuff {
             return dataTotal;
         } catch (FileNotFoundException ex) {
             System.out.println(ex.getMessage());
-            ArrayList<String> a = new ArrayList<String>();
-            a.add(ex.getMessage());
-            return a;
+            return new ArrayList<String>();
         }
     }
 
@@ -35,12 +33,16 @@ public class FileStuff {
             BufferedReader reader = new BufferedReader(new FileReader("db/_students.txt"));
             StringBuilder content = new StringBuilder();
             String line;
-            int currentLine = 1;
 
             ArrayList<String> studentData = readTxt("db/_students.txt");
-            String studentDataToEdit = studentData.get(userId - 1);
-
-            String id = studentDataToEdit.split("-")[0];
+            String studentDataToEdit = "";
+            for (String student : studentData) {
+                if (Integer.parseInt(student.split("-")[0]) == userId) {
+                    studentDataToEdit = student;
+                    break;
+                }
+            }
+            
             String name = studentDataToEdit.split("-")[1];
             String number = studentDataToEdit.split("-")[5];
             String pwd = studentDataToEdit.split("-")[6];
@@ -53,25 +55,19 @@ public class FileStuff {
             String clubs = studentDataToEdit.split("-")[13];
             String clubsDescriptions = studentDataToEdit.split("-")[14];
 
-            String newStudentData = id + "-" + name + "-" + newAddress + "-" + newPhone + "-" + newEmail + "-" + number
+            String newStudentData = userId + "-" + name + "-" + newAddress + "-" + newPhone + "-" + newEmail + "-" + number
                     + "-" + pwd + "-" + faculty + "-" + department + "-" + gradeLevel + "-" + annualPayment + "-"
                     + courses + "-" + grades + "-" + clubs + "-" + clubsDescriptions;
 
-            // TODO: error handling for the first line doesnt work here, while editing it creates an empty line at the top
             while((line = reader.readLine()) != null){
-                // if(currentLine == userId && userId == 1 ){
-                //     content.append(newStudentData); // to avoid white spaces in first line in the text file
-                // }
-                if(currentLine == userId){
-                    content.append(newStudentData).append("\n");
+                String currentId=line.split("-")[0];
+                if(Integer.parseInt(currentId) == userId){
+                    content.append(newStudentData);
                 }
-                else if(currentLine == (userId-1)){
-                    content.append(line); // to avoid white spaces in txt file
+                else {
+                    content.append(line); 
                 }
-                else{
-                    content.append(line).append("\n");
-                }
-                currentLine++;
+                content.append("\n");
             }
 
             BufferedWriter writer = new BufferedWriter(new FileWriter("db/_students.txt"));
@@ -82,9 +78,7 @@ public class FileStuff {
             return studentData;
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
-            ArrayList<String> a = new ArrayList<String>();
-            a.add(ex.getMessage());
-            return a;
+            return new ArrayList<String>();
         }
     }
 
@@ -93,36 +87,34 @@ public class FileStuff {
             BufferedReader reader = new BufferedReader(new FileReader("db/_instructors.txt"));
             StringBuilder content = new StringBuilder();
             String line;
-            int currentLine = 1;
 
             ArrayList<String> instructorData = readTxt("db/_instructors.txt");
-            String instructorDataToEdit = instructorData.get(userId - 1);
+            String instructorDataToEdit = "";
+            for (String instructor : instructorData) {
+                if (Integer.parseInt(instructor.split("-")[0]) == userId) {
+                    instructorDataToEdit = instructor;
+                    break;
+                }
+            }
 
-            String id = instructorDataToEdit.split("-")[0];
             String name = instructorDataToEdit.split("-")[1];            
             String courses = instructorDataToEdit.split("-")[5];
             String salary = instructorDataToEdit.split("-")[6];
             String username = instructorDataToEdit.split("-")[7];
             String pwd = instructorDataToEdit.split("-")[8];
 
-            String newInstructorData = id + "-" + name + "-" + newAddress + "-" + newPhone + "-" + newEmail + "-"
+            String newInstructorData = userId + "-" + name + "-" + newAddress + "-" + newPhone + "-" + newEmail + "-"
                     + courses + "-" + salary + "-" + username + "-" + pwd ;
 
-            // TODO: error handling for the first line doesnt work here, while editing it creates an empty line at the top
             while((line = reader.readLine()) != null){
-                // if(currentLine == userId && userId == 1 ){
-                //     content.append(newStudentData); // to avoid white spaces in first line in the text file
-                // }
-                if(currentLine == userId){
-                    content.append(newInstructorData).append("\n");
-                }
-                else if(currentLine == (userId-1)){
-                    content.append(line); // to avoid white spaces in txt file
-                }
-                else{
-                    content.append(line).append("\n");
-                }
-                currentLine++;
+	            String currentId=line.split("-")[0];
+	            if(Integer.parseInt(currentId) == userId){
+	                content.append(newInstructorData);
+	            }
+                else {
+	                content.append(line); 
+	            }               
+               content.append("\n");
             }
 
             BufferedWriter writer = new BufferedWriter(new FileWriter("db/_instructors.txt"));
@@ -133,9 +125,7 @@ public class FileStuff {
             return instructorData;
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
-            ArrayList<String> a = new ArrayList<String>();
-            a.add(ex.getMessage());
-            return a;
+            return new ArrayList<String>();
         }
     }
 
@@ -144,12 +134,16 @@ public class FileStuff {
             BufferedReader reader = new BufferedReader(new FileReader("db/_students.txt"));
             StringBuilder content = new StringBuilder();
             String line;
-            int currentLine = 1;
 
             ArrayList<String> studentData = readTxt("db/_students.txt");
-            String studentDataToEdit = studentData.get(userId -1);
+            String studentDataToEdit = "";
+            for (String student : studentData) {
+                if (Integer.parseInt(student.split("-")[0]) == userId) {
+                    studentDataToEdit = student;
+                    break;
+                }
+            }
 
-            String id = studentDataToEdit.split("-")[0];
             String name = studentDataToEdit.split("-")[1];
             String address = studentDataToEdit.split("-")[2];
             String phone = studentDataToEdit.split("-")[3];
@@ -164,22 +158,20 @@ public class FileStuff {
             String clubs = studentDataToEdit.split("-")[13];
             String clubsDescriptions = studentDataToEdit.split("-")[14];
 
-            String newStudentData = id + "-" + name + "-" + address + "-" + phone + "-" + email + "-" + number
+            String newStudentData = userId + "-" + name + "-" + address + "-" + phone + "-" + email + "-" + number
                     + "-" + pwd + "-" + faculty + "-" + department + "-" + gradeLevel + "-" + annualPayment + "-"
                     + courses + "-" + newGrades + "-" + clubs + "-" + clubsDescriptions;
 
 
             while((line = reader.readLine()) != null){
-                if(currentLine == userId){
-                    content.append(newStudentData).append("\n");
-                }
-                else if(currentLine == (userId-1)){
-                    content.append(line); // to avoid white spaces in txt file
-                }
-                else{
-                    content.append(line).append("\n");
-                }
-                currentLine++;
+	            String currentId=line.split("-")[0];
+	            if(Integer.parseInt(currentId) == userId){
+	                content.append(newStudentData);
+	            }
+                else {
+	                content.append(line); 
+	            }               
+               content.append("\n");
             }
 
             BufferedWriter writer = new BufferedWriter(new FileWriter("db/_students.txt"));
@@ -190,20 +182,71 @@ public class FileStuff {
             return studentData;
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
-            ArrayList<String> a = new ArrayList<String>();
-            a.add(ex.getMessage());
-            return a;
+            return new ArrayList<String>();
         }
     }
 
     public static void addUser(String userData,String pathname){
         try{
             FileWriter writer = new FileWriter(pathname, true); // true makes it protect old data
-            writer.append("\n"+userData);
+            writer.append(userData);
+            if (new File(pathname).length() != 0) {
+                writer.append("\n");
+            }
             writer.close();
         } 
         catch(IOException e){
             e.printStackTrace();
+        }
+    }
+    
+    public static void updateUser(String userData,int userId,String pathname){
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(pathname));
+            StringBuilder content = new StringBuilder();
+            String line;
+            
+            while((line = reader.readLine()) != null){
+                String currentId=line.split("-")[0];
+                if(Integer.parseInt(currentId.trim()) == userId){
+                    content.append(userData);
+                }
+                else {
+                    content.append(line); 
+                }
+                content.append("\n");
+            }
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter(pathname));
+            writer.write(content.toString());
+
+            reader.close();
+            writer.close();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public static void deleteUser(int userId,String pathname){
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(pathname));
+            StringBuilder content = new StringBuilder();
+            String line;
+            
+            while((line = reader.readLine()) != null){
+                String currentId=line.split("-")[0].trim();
+                if(Integer.parseInt(currentId) != userId){
+                    content.append(line+"\n");
+                }
+            }
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter(pathname));
+            writer.write(content.toString());
+
+            reader.close();
+            writer.close();
+        } catch (IOException ex){
+            System.out.println(ex.getMessage());
         }
     }
 

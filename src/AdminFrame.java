@@ -40,25 +40,27 @@ public class AdminFrame extends JFrame {
 		JLabel welcomeLabel = new JLabel("Hello boss, welcome home.");
 		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomeLabel.setFont(new Font("Tahoma", Font.BOLD, 34));
-		welcomeLabel.setBounds(290, 11, 488, 51);
+		welcomeLabel.setBounds(283, 30, 488, 51);
 		contentPane.add(welcomeLabel);				
 		
-		JButton addStudentButton = new JButton("Add Student");
+		JButton addStudentButton = new JButton("Manage Students");
 		addStudentButton.setFont(new Font("Tahoma", Font.BOLD, 22));
 		addStudentButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new ManageStudentsFrame().setVisible(true);
 			}
 		});
-		addStudentButton.setBounds(32, 106, 200, 35);
+		addStudentButton.setBounds(369, 125, 285, 51);
 		contentPane.add(addStudentButton);
 		
-		JButton addInstructorButton = new JButton("Add Instructor");
+		JButton addInstructorButton = new JButton("Manage Instructors");
 		addInstructorButton.setFont(new Font("Tahoma", Font.BOLD, 22));
 		addInstructorButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new ManageInstructorsFrame().setVisible(true);
 			}
 		});
-		addInstructorButton.setBounds(543, 106, 200, 35);
+		addInstructorButton.setBounds(369, 214, 285, 51);
 		contentPane.add(addInstructorButton);
 	}
 }

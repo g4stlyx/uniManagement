@@ -155,7 +155,7 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 				return;
 			}
 			if(isAdminLoginSuccessful){
-				new AdminFrame().setVisible(true);
+				new ManageStudentsFrame().setVisible(true);
 				dispose();
 				return;
 			}

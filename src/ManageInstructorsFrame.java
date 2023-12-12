@@ -7,10 +7,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
-import java.awt.TextField;
-
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -19,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public class EditStudentFrame extends JFrame {
+public class ManageInstructorsFrame extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private JTextField[] textFields;
@@ -56,13 +53,13 @@ public class EditStudentFrame extends JFrame {
 	private JButton deleteButton;
 	private JButton updateButton;
 
-	private static int idCounter = 6;
+	private int idCounter;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EditStudentFrame frame = new EditStudentFrame();
+					ManageInstructorsFrame frame = new ManageInstructorsFrame();
 					frame.setVisible(true);
 					frame.getContentPane().setLayout(null);
 				} catch (Exception e) {
@@ -72,7 +69,7 @@ public class EditStudentFrame extends JFrame {
 		});
 	}
 
-	public EditStudentFrame() {
+	public ManageInstructorsFrame(){
 		setTitle("University Management System - Admin - Manage Students");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 997, 486);
@@ -265,10 +262,16 @@ public class EditStudentFrame extends JFrame {
         });
 
         studentsTableModel = new DefaultTableModel();
-        String[] columns = {"ID","Name","Address","Phone","Email","Number","Password","Faculty","Department","Grade Level","Annual Fee","Courses","Grades","Clubs","Club Descriptions"};
+        String[] columns = {"ID","Name","Address","Phone","Email","Number","Password","Faculty","Department","Grade Level","Fee","Courses","Grades","Clubs","Club Descriptions"};
         studentsTable.setModel(studentsTableModel);
+        studentsTable.setRowHeight(25);
         studentsTableModel.setColumnIdentifiers(columns);
         scrollPane.setViewportView(studentsTable);
+        
+        studentsTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+        studentsTable.getColumnModel().getColumn(9).setPreferredWidth(30);
+        studentsTable.getColumnModel().getColumn(10).setPreferredWidth(50);
+
 
 		// get default values from txt
         ArrayList<String> students= FileStuff.readTxt("db/_students.txt");
@@ -280,9 +283,18 @@ public class EditStudentFrame extends JFrame {
 			}
 			studentsTableModel.addRow(row);
        }
+       
+       // find maxId among students and assign idCounter to the maxId+1
+	   int maxIdIndex;
+	   idCounter = Integer.parseInt(students.get(0).split("-")[0].trim());
+	   for(maxIdIndex=1;maxIdIndex<students.size();maxIdIndex++){
+			if(Integer.parseInt(students.get(maxIdIndex).split("-")[0].trim()) > idCounter){
+				idCounter = Integer.parseInt(students.get(maxIdIndex).split("-")[0].trim()) +1;
+			}
+	   }
 
 	   // add button
-	   addButton = new JButton("Add Student");
+	   addButton = new JButton("Add");
        addButton.addActionListener(new ActionListener() {
     	   	// TODO: yeni özelliklerle new Student() oluşturma -later-
         	public void actionPerformed(ActionEvent e) {
@@ -312,10 +324,53 @@ public class EditStudentFrame extends JFrame {
         addButton.setBounds(20, 410, 89, 23);
         getContentPane().add(addButton);
 
-		// 
+		// update button
+ 	   	updateButton = new JButton("Update");
+ 	   	updateButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String userData = "";
+				int selectedRow = studentsTable.getSelectedRow();
+				if(selectedRow>=0){ // 0'dan küçük = editlenecek satır seçilmemiş
+					for(int i=0;i<textFields.length;i++){
+						studentsTableModel.setValueAt(textFields[i].getText(), selectedRow, i);
+						userData = userData + textFields[i].getText();
+						if(i!=textFields.length-1){
+							userData = userData + "-";
+						}
+					}
+					JOptionPane.showMessageDialog(null,"Updated Successfully");
+					int idInt = Integer.parseInt(textFields[0].getText().trim());
+					FileStuff.updateUser(userData, idInt, "db/_students.txt");
+					clear();
+				}
+				else{
+					JOptionPane.showMessageDialog(null,"Please Select a Row First");
+				}
+			}
+		});
+ 	   	updateButton.setBounds(125, 410, 89, 23);
+        getContentPane().add(updateButton);        
 
+        // delete button
+		deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		int selectedRow = studentsTable.getSelectedRow();
+        		if(selectedRow>=0){
+					studentsTableModel.removeRow(selectedRow);
+					JOptionPane.showMessageDialog(null,"Row Deleted Successfully");
+					FileStuff.deleteUser(Integer.parseInt(idField.getText().trim()) ,"db/_students.txt");
+					clear();
+        		}
+        		else{
+        			JOptionPane.showMessageDialog(null,"Please Select a Row to Remove");
+        		}
+        			
+        	}
+        });
+        deleteButton.setBounds(230, 410, 89, 23);
+        getContentPane().add(deleteButton);
 
-		
     }
 
 	public void clear(){
