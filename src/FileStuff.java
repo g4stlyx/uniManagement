@@ -18,7 +18,7 @@ public class FileStuff {
             ArrayList<String> dataTotal = new ArrayList<String>();
             while (scanner.hasNextLine()) {
                 String data = scanner.nextLine();                
-                dataTotal.add("\n" + data); //! burası ilk baştaki boşluğun sebebi olabilir
+                dataTotal.add("\n" + data);
             }
             scanner.close();
             return dataTotal;
@@ -37,7 +37,7 @@ public class FileStuff {
             ArrayList<String> studentData = readTxt("db/_students.txt");
             String studentDataToEdit = "";
             for (String student : studentData) {
-                if (Integer.parseInt(student.split("-")[0]) == userId) {
+                if (Integer.parseInt(student.split("-")[0].trim()) == userId) {
                     studentDataToEdit = student;
                     break;
                 }
@@ -60,7 +60,7 @@ public class FileStuff {
                     + courses + "-" + grades + "-" + clubs + "-" + clubsDescriptions;
 
             while((line = reader.readLine()) != null){
-                String currentId=line.split("-")[0];
+                String currentId=line.split("-")[0].trim();
                 if(Integer.parseInt(currentId) == userId){
                     content.append(newStudentData);
                 }
@@ -138,7 +138,7 @@ public class FileStuff {
             ArrayList<String> studentData = readTxt("db/_students.txt");
             String studentDataToEdit = "";
             for (String student : studentData) {
-                if (Integer.parseInt(student.split("-")[0]) == userId) {
+                if (Integer.parseInt(student.split("-")[0].trim()) == userId) {
                     studentDataToEdit = student;
                     break;
                 }
@@ -250,5 +250,18 @@ public class FileStuff {
         }
     }
 
+    // TODO:
+    /*
+      *add,edit,delete için interface yaz,
+      hem student'da hem instructor'da bunu çağır
+
+      *her yeni user için pwd otomatikleştirilebilir
+
+      *login işini bir methoda, interface'e vs yazabilirsin
+      bunu da yine tüm class'larda çağırırsın
+
+      
+     
+    */
 
 }

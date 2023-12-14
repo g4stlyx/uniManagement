@@ -119,42 +119,42 @@ public class ManageInstructorsFrame extends JFrame {
 				
 		coursesLabel = new JLabel("Courses*:");
 		coursesLabel.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		coursesLabel.setBounds(552, 92, 87, 16);
+		coursesLabel.setBounds(179, 92, 87, 16);
 		contentPane.add(coursesLabel);
 		
 		coursesField = textFields[5] = new JTextField();;
 		coursesField.setColumns(15);
-		coursesField.setBounds(633, 90, 118, 20);
+		coursesField.setBounds(266, 92, 300, 20);
 		contentPane.add(coursesField);
 		
 		salaryLabel = new JLabel("Salary:");
 		salaryLabel.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		salaryLabel.setBounds(552, 64, 103, 16);
+		salaryLabel.setBounds(582, 64, 103, 16);
 		contentPane.add(salaryLabel);
 		
 		salaryField = textFields[6] = new JTextField();;
 		salaryField.setColumns(15);
-		salaryField.setBounds(648, 62, 103, 20);
+		salaryField.setBounds(678, 62, 103, 20);
 		contentPane.add(salaryField);
 
 		JLabel usernameLabel = new JLabel("Username:");
 		usernameLabel.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		usernameLabel.setBounds(350, 35, 87, 16);
+		usernameLabel.setBounds(355, 35, 87, 16);
 		contentPane.add(usernameLabel);
 				
 		JTextField usernameField = textFields[7] = new JTextField();;
 		usernameField.setColumns(15);
-		usernameField.setBounds(431, 34, 118, 20);
+		usernameField.setBounds(445, 35, 118, 20);
 		contentPane.add(usernameField);
 
 		JLabel passwordLabel = new JLabel("Password:");
 		passwordLabel.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		passwordLabel.setBounds(350, 35, 87, 16);
+		passwordLabel.setBounds(355, 63, 87, 16);
 		contentPane.add(passwordLabel);
 				
 		passwordField = textFields[8] = new JTextField();;
 		passwordField.setColumns(15);
-		passwordField.setBounds(431, 34, 118, 20);
+		passwordField.setBounds(445, 63, 118, 20);
 		contentPane.add(passwordField);
 		
 		noteDivide1 = new JLabel("*you must divide each course by '_'");

@@ -35,6 +35,7 @@ public class InstructorFrame extends JFrame {
 
 	private int selectedIndex;
 	private JTextField[] gradesTextFields;
+	String selectedStudent;
 	private String[] selectedStudentCoursesArray;
 
 	public static void main(String[] args) {
@@ -222,7 +223,7 @@ public class InstructorFrame extends JFrame {
 				gradesArea.removeAll();
 				
 				selectedIndex = studentsList.getSelectedIndex();
-				String selectedStudent = FileStuff.readTxt("db/_students.txt").get(selectedIndex);
+				selectedStudent = FileStuff.readTxt("db/_students.txt").get(selectedIndex);
 				selectedStudentCoursesArray = selectedStudent.split("-")[11].split("_");
 				String[] selectedStudentGradesArray = selectedStudent.split("-")[12].split("_");
 				
@@ -284,7 +285,7 @@ public class InstructorFrame extends JFrame {
 					}
 				}
 
-				FileStuff.editStudentGrades(selectedIndex+1,newGrades.toString());
+				FileStuff.editStudentGrades(Integer.parseInt(selectedStudent.split("-")[0].trim()),newGrades.toString());
 		 		JOptionPane.showMessageDialog(contentPane,"Student's Grades Edited Successfully.","Success",JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
