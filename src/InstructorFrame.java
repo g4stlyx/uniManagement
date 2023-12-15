@@ -178,7 +178,7 @@ public class InstructorFrame extends JFrame {
 				String passwordInput1 = String.valueOf(passwordField1.getPassword());
 				String passwordInput2 = String.valueOf(passwordField2.getPassword());
 				if(passwordInput1.equals(instructor.split("-")[8]) && passwordInput2.equals(instructor.split("-")[8])){
-					int idInt = Integer.parseInt(idField.getText().trim()); // trim çünkü idField.getText()=" 5"
+					int idInt = Integer.parseInt(idField.getText().trim());
 					FileStuff.editInstructorsTxt(idInt,phoneField.getText(),emailField.getText(),addressField.getText());
 					passwordField1.setText("");
 					passwordField2.setText("");
@@ -270,7 +270,7 @@ public class InstructorFrame extends JFrame {
 						if(index < gradesTextFields.length) {
 							singleCourseGrades.append(gradesTextFields[index].getText());
 							if(j != gradesTextFields.length / selectedStudentCoursesArray.length - 1){
-								singleCourseGrades.append(","); // append , if it is not the last grade of the certain course
+								singleCourseGrades.append(","); // append "," if it is not the last grade of the certain course
 							}
 						}
 					}

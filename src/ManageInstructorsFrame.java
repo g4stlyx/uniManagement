@@ -77,14 +77,14 @@ public class ManageInstructorsFrame extends JFrame {
 		textFields = new JTextField[9];
 
 		idField  = textFields[0] = new JTextField();
-		idField.setBounds(83, 34, 94, 20);
+		idField.setBounds(83, 34, 100, 20);
 		contentPane.add(idField);
 		idField.setColumns(15);
 		idField.setEditable(false);
 		
 		nameField = textFields[1] = new JTextField();
 		nameField.setColumns(15);
-		nameField.setBounds(83, 62, 94, 20);
+		nameField.setBounds(83, 62, 200, 20);
 		contentPane.add(nameField);
 		
 		JLabel addressLabel = new JLabel("Address:");
@@ -94,67 +94,67 @@ public class ManageInstructorsFrame extends JFrame {
 		
 		addressField = textFields[2] = new JTextField();;
 		addressField.setColumns(15);
-		addressField.setBounds(83, 90, 94, 20);
+		addressField.setBounds(83, 90, 300, 20);
 		contentPane.add(addressField);
 		
 		JLabel phoneLabel = new JLabel("Phone:");
 		phoneLabel.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		phoneLabel.setBounds(179, 35, 69, 16);
+		phoneLabel.setBounds(190, 35, 69, 16);
 		contentPane.add(phoneLabel);
 		 
 		phoneField = textFields[3] = new JTextField();;
 		phoneField.setColumns(15);
-		phoneField.setBounds(236, 34, 112, 20);
+		phoneField.setBounds(263, 34, 200, 20);
 		contentPane.add(phoneField);
 		
 		JLabel emailLabel = new JLabel("Email:");
 		emailLabel.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		emailLabel.setBounds(179, 63, 56, 16);
+		emailLabel.setBounds(290, 63, 69, 16);
 		contentPane.add(emailLabel);
 		
 		emailField = textFields[4] = new JTextField();;
 		emailField.setColumns(15);
-		emailField.setBounds(236, 62, 112, 20);
+		emailField.setBounds(363, 62, 200, 20);
 		contentPane.add(emailField);
 				
 		coursesLabel = new JLabel("Courses*:");
 		coursesLabel.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		coursesLabel.setBounds(179, 92, 87, 16);
+		coursesLabel.setBounds(385, 92, 87, 16);
 		contentPane.add(coursesLabel);
 		
 		coursesField = textFields[5] = new JTextField();;
 		coursesField.setColumns(15);
-		coursesField.setBounds(266, 92, 300, 20);
+		coursesField.setBounds(470, 92, 400, 20);
 		contentPane.add(coursesField);
 		
 		salaryLabel = new JLabel("Salary:");
 		salaryLabel.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		salaryLabel.setBounds(582, 64, 103, 16);
+		salaryLabel.setBounds(760, 35, 69, 16);
 		contentPane.add(salaryLabel);
 		
 		salaryField = textFields[6] = new JTextField();;
 		salaryField.setColumns(15);
-		salaryField.setBounds(678, 62, 103, 20);
+		salaryField.setBounds(835, 35, 100, 20);
 		contentPane.add(salaryField);
 
 		JLabel usernameLabel = new JLabel("Username:");
 		usernameLabel.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		usernameLabel.setBounds(355, 35, 87, 16);
+		usernameLabel.setBounds(465, 35, 87, 16);
 		contentPane.add(usernameLabel);
 				
 		JTextField usernameField = textFields[7] = new JTextField();;
 		usernameField.setColumns(15);
-		usernameField.setBounds(445, 35, 118, 20);
+		usernameField.setBounds(555, 35, 200, 20);
 		contentPane.add(usernameField);
 
 		JLabel passwordLabel = new JLabel("Password:");
 		passwordLabel.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		passwordLabel.setBounds(355, 63, 87, 16);
+		passwordLabel.setBounds(565, 63, 87, 16);
 		contentPane.add(passwordLabel);
 				
 		passwordField = textFields[8] = new JTextField();;
 		passwordField.setColumns(15);
-		passwordField.setBounds(445, 63, 118, 20);
+		passwordField.setBounds(655, 63, 200, 20);
 		contentPane.add(passwordField);
 		
 		noteDivide1 = new JLabel("*you must divide each course by '_'");
@@ -185,7 +185,17 @@ public class ManageInstructorsFrame extends JFrame {
         instructorsTableModel.setColumnIdentifiers(columns);
         scrollPane.setViewportView(instructorsTable);
         
-        instructorsTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+        instructorsTable.getColumnModel().getColumn(0).setPreferredWidth(15);
+        instructorsTable.getColumnModel().getColumn(1).setPreferredWidth(35);
+        instructorsTable.getColumnModel().getColumn(2).setPreferredWidth(55);
+		instructorsTable.getColumnModel().getColumn(3).setPreferredWidth(35);
+        instructorsTable.getColumnModel().getColumn(4).setPreferredWidth(55);
+        instructorsTable.getColumnModel().getColumn(5).setPreferredWidth(105);
+        instructorsTable.getColumnModel().getColumn(6).setPreferredWidth(35);
+        instructorsTable.getColumnModel().getColumn(7).setPreferredWidth(45);
+        instructorsTable.getColumnModel().getColumn(7).setPreferredWidth(45);
+
+
 
 		// get default values from txt
         ArrayList<String> instructors= FileStuff.readTxt("db/_instructors.txt");

@@ -1,4 +1,4 @@
 1-John Doe-123 Main Street, Cityville-1234567890-johndoe@email.com-Computer Science_Mathematics_Literature-50000-johndoe-123
  2-Jane Smith-456 Elm Street, Townsville-5555555-janesmith@email.com-Physics_Chemistry-45000-janesmith-123
-6-Jane Smith-456 Elm Street, Townsville-666666666-janesmith@email.com-Physics_Chemistry-45000-janesmith-123
 7-John Doe-123 Main Street, Cityville-1234567890-johndoe@email.com-Computer Science_Mathematics_Literature-50000-johndoe-123
+8-John Doe-123 Main Street, Cityville-666666666-johndoe@email.com-Computer Science_Mathematics_Literature-50000-johndoe-123

@@ -4,30 +4,27 @@ public class Teacher extends Person {
     
     // variables
     private ArrayList<String> courses = new ArrayList<String>();
-    private ArrayList<String> titles = new ArrayList<String>(); // prof, öğrenci danışmanı, kütüphane görevlisi etc.
     private int salary;
 
-    private String staffUsername;
-    private String staffPassword;
+    private String username;
+    private String password;
 
     // constructors
-    Teacher(String name,String address){
-        super(name,address);
-        courses = new ArrayList<String>();
+    Teacher(String name,String address,String phoneNumber,String email){
+        super(name,address,phoneNumber,email);
     }
 
     // getters and setters
     public int getNumOfCourses(){return courses.size();}
     public ArrayList<String> getCourses(){return courses;}
-    public ArrayList<String> getTitles(){return titles;}
 
     public int getSalary(){return this.salary;}
     public void setSalary(int salary){this.salary = salary;}
 
-    public String getStaffUsername(){return this.staffUsername;}
-    public void setStaffUsername(String staff_username){this.staffUsername = staff_username;}
-    public String getStaffPassword(){return this.staffPassword;}
-    public void setStaffPassword(String staff_password){this.staffPassword = staff_password;}
+    public String getUsername(){return this.username;}
+    public void setUsername(String staff_username){this.username = staff_username;}
+    public String getPassword(){return this.password;}
+    public void setPassword(String staff_password){this.password = staff_password;}
 
     // other methods
     public boolean addCourse(String course){
@@ -73,7 +70,7 @@ public class Teacher extends Person {
     }
 
     public boolean staffLogin(String staff_username, String staff_password){
-        if(staff_password == this.staffUsername && staff_password == this.staffPassword){
+        if(staff_password == this.username && staff_password == this.password){
             System.out.println("Staff login successful");
             return true;
         }

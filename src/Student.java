@@ -1,65 +1,75 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
-public class Student extends Person {
-    // variables    
-    private int student_id;
-    private int studentNumber; 
-    private String studentPassword;
+public class Student extends Person implements Managable{
 
+    private static HashMap<Integer, Student> students = new HashMap<>(); 
+
+    private int student_id; // id in person?
+    private String studentNumber; // int? 
+    private String studentPassword; // password in person?
     private String faculty;
     private String department;
-    private int gradeLevel; // sınıfı
-    private double annual_fee;
-    private ArrayList<String> coursesRegistered = new ArrayList<String>();
-    private ArrayList<Integer> grades = new ArrayList<Integer>();
-    private ArrayList<String> clubsRegistered = new ArrayList<String>();
+    private String gradeLevel; // int?
+    private String annual_fee; //int/double?
+    private ArrayList<String> courses = new ArrayList<String>();
+    private ArrayList<String> grades = new ArrayList<String>(); // Integer?
+    private ArrayList<String> clubs = new ArrayList<String>();
+    private ArrayList<String> clubDescriptions = new ArrayList<String>();
 
-    // constructors
-    public Student(String name,String address){
-        super(name,address);
-        coursesRegistered = new ArrayList<String>();
-        grades = new ArrayList<Integer>();
+    public Student(int id,String name,String address,String phoneNumber,String email,String studentNumber,String pwd, String faculty, String department, String gradeLevel, String annual_fee,ArrayList<String> courses, ArrayList<String> grades, ArrayList<String> clubs, ArrayList<String> clubDescriptions){
+        super(name,address,phoneNumber,email);
+        this.student_id = id;
+        this.studentNumber = studentNumber;
+        this.studentPassword = pwd;
+        this.faculty = faculty;
+        this.department = department;
+        this.gradeLevel = gradeLevel;
+        this.annual_fee = annual_fee;
+        this.courses = courses;
+        this.grades = grades;
+        this.clubs = clubs;
+        this.clubDescriptions = clubDescriptions;
     }
 
-    // getters and setters
     public int getStudentId(){return this.student_id;}
-    public int getStudentNumber(){return this.studentNumber;}
+    public void setStudentId(int id){this.student_id = id;}
+    public String getStudentNumber(){return this.studentNumber;}
+    public void setStudentNumber(String studentNumber){this.studentNumber = studentNumber;}
     public String getStudentPassword(){return this.studentPassword;}
     public void setStudentPassword(String student_password){this.studentPassword = student_password;}
     
-    public double getAnnualFee(){return this.annual_fee;}
-    public void setAnnualFee(double annual_fee){this.annual_fee = annual_fee;}
-    public int getNumOfCourses(){return coursesRegistered.size();}
+    public String getAnnualFee(){return this.annual_fee;}
+    public void setAnnualFee(String annual_fee){this.annual_fee = annual_fee;}
+    public int getNumOfCourses(){return courses.size();}
     
     public String getFaculty(){return this.faculty;}
     public void setFaculty(String faculty){this.faculty = faculty;} // fakülte değişimi?
     public String getDepartment(){return this.department;}
     public void setDepartment(String department){this.department = department;} // bölüm değişimi?
-    public int getGradeLevel(){return this.gradeLevel;}
-    public void setGradeLevel(int gradeLevel){this.gradeLevel = gradeLevel;}
+    public String getGradeLevel(){return this.gradeLevel;}
+    public void setGradeLevel(String gradeLevel){this.gradeLevel = gradeLevel;}
     
-    public ArrayList<String> getCourses(){return coursesRegistered;}
-    public ArrayList<Integer> getGrades(){return grades;}
-    public ArrayList<String> getClubsRegistered(){return clubsRegistered;}
+    public ArrayList<String> getCourses(){return courses;}
+    public void setCourses(ArrayList<String> courses){this.courses=courses;}
+    public ArrayList<String> getGrades(){return grades;}
+    public void setGrades(ArrayList<String> grades){this.grades=grades;}
+    public ArrayList<String> getClubs(){return clubs;}
+    public void setClubs(ArrayList<String> clubs){this.clubs=clubs;}
+    public ArrayList<String> getClubDescriptions(){return clubDescriptions;}
+    public void setClubDescriptions(ArrayList<String> clubDescriptions){this.clubDescriptions=clubDescriptions;}
 
     // other methods
-    public void addCourseGrade(String course,int grade){
-        coursesRegistered.add(course);
+    public void addCourseGrade(String course,String grade){
+        courses.add(course);
         grades.add(grade);
     }
 
     public void printGrades(){
-        for(int i=0;i<coursesRegistered.size();i++){
-            System.out.println(coursesRegistered.get(i)+": "+grades.get(i));
+        for(int i=0;i<courses.size();i++){
+            System.out.println(courses.get(i)+": "+grades.get(i));
         }
-    }
-
-    public double getAverageGrade(){
-        int sum=0;
-        for(int grade:grades){
-            sum += grade;
-        }
-        return (double)sum/grades.size();
     }
 
     public boolean studentLogin(int student_id, String student_password){
@@ -75,7 +85,63 @@ public class Student extends Person {
 
     @Override
     public String toString(){
-        return "Student: "+getName()+"("+getAddress()+")";
+        // TODO: edit all toString functions
+        return "Student: "+getName()+"("+getGrades()+")";
     }
+
+    @Override
+    public void add(){
+        students.put(this.getStudentId(), this);
+        System.out.println(students);
+    }
+
+    public static void edit(int id, String name,String address,String phoneNumber,String email,String pwd, String faculty, String department, String gradeLevel, String annual_fee,ArrayList<String> courses, ArrayList<String> grades, ArrayList<String> clubs, ArrayList<String> clubDescriptions) {
+        Student student = students.get(id);
+        if (student != null) {
+            student.setName(name);
+            student.setAddress(address);
+            student.setPhoneNumber(phoneNumber);
+            student.setEmail(email);
+            student.setStudentPassword(pwd);
+            student.setFaculty(faculty);
+            student.setDepartment(department);
+            student.setGradeLevel(gradeLevel);
+            student.setAnnualFee(annual_fee);
+            student.setCourses(courses);
+            student.setGrades(grades);
+            student.setClubs(clubs);
+            student.setClubDescriptions(clubDescriptions);
+        } 
+        else{
+            System.out.println("No User Found With the id " + id);
+        }
+    }
+
+    public static void delete(int id) {
+        Student student = students.get(id);
+        if(student != null){
+            students.put(id, null);
+            System.out.println(students);
+        } 
+        else{
+            System.out.println("No User Found With the id " + id);
+        }
+    }
+
+    public static void addExistingStudentsToTheMap(){
+        ArrayList<String> studentsList = FileStuff.readTxt("db/_students.txt");
+
+        for(int i=0;i<studentsList.size();i++){
+            String[] studentValues = studentsList.get(i).split("-");
+            ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(studentValues[11].toString().split("_")));
+            ArrayList<String> gradesArrayList = new ArrayList<>(Arrays.asList(studentValues[12].toString().split("_ | ,"))); 
+            ArrayList<String> clubsArrayList = new ArrayList<String>(Arrays.asList(studentValues[13].toString().split("_"))); 
+            ArrayList<String> clubDescriptionsArrayList = new ArrayList<String>(Arrays.asList(studentValues[14].toString().split("_")));  
+            Student tempStudent = new Student(Integer.parseInt(studentValues[0].toString().trim()),studentValues[1].toString(),studentValues[2].toString(),studentValues[3].toString(),studentValues[4].toString(),studentValues[5].toString(),studentValues[6].toString(),studentValues[7].toString(),studentValues[8].toString(),studentValues[9].toString(),studentValues[10].toString(),coursesArrayList,gradesArrayList,clubsArrayList,clubDescriptionsArrayList);
+            tempStudent.add();
+        }
+    }
+
+
 
 }

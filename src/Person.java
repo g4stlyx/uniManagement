@@ -1,15 +1,15 @@
 public class Person {
     
-    // variables
     private String name;
     private String address;
-    private int phoneNumber;
+    private String phoneNumber;
     private String email;
 
-    // constructors
-    Person(String name,String address){
+    Person(String name,String address,String phoneNumber,String email){
         this.name = name;
         this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
     }
 
     // getter and setter methods
@@ -19,8 +19,8 @@ public class Person {
     public void setAddress(String address){this.address = address;}
     public String getEmail(){return this.email;}
     public void setEmail(String email){this.email = email;}
-    public int getPhoneNumber(){return this.phoneNumber;}
-    public void setPhoneNumber(int phoneNumber){this.phoneNumber = phoneNumber;}
+    public String getPhoneNumber(){return this.phoneNumber;}
+    public void setPhoneNumber(String phoneNumber){this.phoneNumber = phoneNumber;}
     
     // other methods
     public String toString(){
