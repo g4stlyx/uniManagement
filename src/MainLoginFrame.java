@@ -49,6 +49,10 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 	public MainLoginFrame() {
 
 		Student.addExistingStudentsToTheMap();
+		System.out.println(Student.getAllStudents());
+		Instructor.addExistingInstructorsToTheMap();
+		System.out.println(Instructor.getAllInstructors());
+		
 
 		setTitle("University Management System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

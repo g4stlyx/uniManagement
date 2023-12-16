@@ -33,6 +33,8 @@ public class Student extends Person implements Managable{
         this.clubDescriptions = clubDescriptions;
     }
 
+    public static HashMap<Integer,Student> getAllStudents(){return students;}
+
     public int getStudentId(){return this.student_id;}
     public void setStudentId(int id){this.student_id = id;}
     public String getStudentNumber(){return this.studentNumber;}
@@ -60,18 +62,16 @@ public class Student extends Person implements Managable{
     public ArrayList<String> getClubDescriptions(){return clubDescriptions;}
     public void setClubDescriptions(ArrayList<String> clubDescriptions){this.clubDescriptions=clubDescriptions;}
 
-    // other methods
+
     public void addCourseGrade(String course,String grade){
         courses.add(course);
         grades.add(grade);
     }
-
     public void printGrades(){
         for(int i=0;i<courses.size();i++){
             System.out.println(courses.get(i)+": "+grades.get(i));
         }
     }
-
     public boolean studentLogin(int student_id, String student_password){
         if(student_id == this.student_id && student_password == this.studentPassword){
             System.out.println("Student login successful");
@@ -82,17 +82,16 @@ public class Student extends Person implements Managable{
             return false;
         }
     }
-
     @Override
     public String toString(){
         // TODO: edit all toString functions
-        return "Student: "+getName()+"("+getGrades()+")";
+        return "Student: "+getName()+", "+getFaculty()+", "+getDepartment()+", "+getCourses();
     }
 
     @Override
     public void add(){
         students.put(this.getStudentId(), this);
-        System.out.println(students);
+        //System.out.println(students);
     }
 
     public static void edit(int id, String name,String address,String phoneNumber,String email,String pwd, String faculty, String department, String gradeLevel, String annual_fee,ArrayList<String> courses, ArrayList<String> grades, ArrayList<String> clubs, ArrayList<String> clubDescriptions) {

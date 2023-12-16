@@ -8,6 +8,8 @@ import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.Color;
@@ -46,7 +48,6 @@ public class StudentFrame extends JFrame {
 	}
 
 	public StudentFrame(String student) {
-		
 		setTitle("University Management System - Student");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1100, 462);
@@ -291,6 +292,13 @@ public class StudentFrame extends JFrame {
 				String passwordInput2 = String.valueOf(passwordField2.getPassword());
 				if(passwordInput1.equals(student.split("-")[6]) && passwordInput2.equals(student.split("-")[6])){
 					int idInt = Integer.parseInt(idField.getText().trim());
+				
+					ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(student.split("-")[11].toString().split("_")));
+					ArrayList<String> gradesArrayList = new ArrayList<>(Arrays.asList(student.split("-")[12].toString().split("_ | ,")));
+					ArrayList<String> clubsArrayList = new ArrayList<String>(Arrays.asList(student.split("-")[13].toString().split("_")));
+					ArrayList<String> clubDescriptionsArrayList = new ArrayList<String>(Arrays.asList(student.split("-")[14].toString().split("_")));
+					Student.edit(idInt,student.split("-")[1].toString(),student.split("-")[2].toString(),student.split("-")[3].toString(),student.split("-")[4].toString(),student.split("-")[6].toString(),student.split("-")[7].toString(),student.split("-")[8].toString(),student.split("-")[9].toString(),student.split("-")[10].toString(),coursesArrayList,gradesArrayList,clubsArrayList,clubDescriptionsArrayList);
+
 					FileStuff.editStudentsTxt(idInt,phoneField.getText(),emailField.getText(),addressField.getText());
 					passwordField1.setText("");
 					passwordField2.setText("");

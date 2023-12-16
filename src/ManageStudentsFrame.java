@@ -74,7 +74,7 @@ public class ManageStudentsFrame extends JFrame {
 
 	public ManageStudentsFrame(){
 		setTitle("University Management System - Admin - Manage Students");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 997, 486);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -274,7 +274,6 @@ public class ManageStudentsFrame extends JFrame {
         studentsTable.getColumnModel().getColumn(0).setPreferredWidth(20);
         studentsTable.getColumnModel().getColumn(9).setPreferredWidth(30);
         studentsTable.getColumnModel().getColumn(10).setPreferredWidth(50);
-
 
 		// get default values from txt
         ArrayList<String> students= FileStuff.readTxt("db/_students.txt");

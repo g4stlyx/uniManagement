@@ -48,7 +48,6 @@ public class AdminFrame extends JFrame {
 		addStudentButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new ManageStudentsFrame().setVisible(true);
-				dispose();
 			}
 		});
 		addStudentButton.setBounds(369, 125, 285, 51);
@@ -59,7 +58,6 @@ public class AdminFrame extends JFrame {
 		addInstructorButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new ManageInstructorsFrame().setVisible(true);
-				dispose();
 			}
 		});
 		addInstructorButton.setBounds(369, 214, 285, 51);

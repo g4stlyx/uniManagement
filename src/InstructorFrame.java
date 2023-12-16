@@ -14,6 +14,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
@@ -30,9 +31,7 @@ public class InstructorFrame extends JFrame {
 	private JTextField usernameField;
 	private JPasswordField passwordField1;
 	private JPasswordField passwordField2;
-	
 	private JList coursesList;
-
 	private int selectedIndex;
 	private JTextField[] gradesTextFields;
 	String selectedStudent;
@@ -182,6 +181,10 @@ public class InstructorFrame extends JFrame {
 					FileStuff.editInstructorsTxt(idInt,phoneField.getText(),emailField.getText(),addressField.getText());
 					passwordField1.setText("");
 					passwordField2.setText("");
+
+					ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(instructor.split("-")[5].split("_")));
+					Instructor.edit(idInt,instructor.split("-")[1],addressField.getText(),phoneField.getText(),emailField.getText(),coursesArrayList,instructor.split("-")[6],instructor.split("-")[7],instructor.split("-")[8]);
+
 					JOptionPane.showMessageDialog(contentPane,"Instructor Edited Successfully.","Success",JOptionPane.INFORMATION_MESSAGE);
 				}
 				else{
@@ -285,7 +288,14 @@ public class InstructorFrame extends JFrame {
 					}
 				}
 
-				FileStuff.editStudentGrades(Integer.parseInt(selectedStudent.split("-")[0].trim()),newGrades.toString());
+				int idInt = Integer.parseInt(selectedStudent.split("-")[0].trim());
+				ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(selectedStudent.split("-")[11].toString().split("_")));
+				ArrayList<String> gradesArrayList = new ArrayList<>(Arrays.asList(selectedStudent.split("-")[12].toString().split("_ | ,")));
+				ArrayList<String> clubsArrayList = new ArrayList<String>(Arrays.asList(selectedStudent.split("-")[13].toString().split("_")));
+				ArrayList<String> clubDescriptionsArrayList = new ArrayList<String>(Arrays.asList(selectedStudent.split("-")[14].toString().split("_")));
+				Student.edit(idInt,selectedStudent.split("-")[1].toString(),selectedStudent.split("-")[2].toString(),selectedStudent.split("-")[3].toString(),selectedStudent.split("-")[4].toString(),selectedStudent.split("-")[6].toString(),selectedStudent.split("-")[7].toString(),selectedStudent.split("-")[8].toString(),selectedStudent.split("-")[9].toString(),selectedStudent.split("-")[10].toString(),coursesArrayList,gradesArrayList,clubsArrayList,clubDescriptionsArrayList);
+
+				FileStuff.editStudentGrades(idInt,newGrades.toString());
 		 		JOptionPane.showMessageDialog(contentPane,"Student's Grades Edited Successfully.","Success",JOptionPane.INFORMATION_MESSAGE);
 			}
 		});

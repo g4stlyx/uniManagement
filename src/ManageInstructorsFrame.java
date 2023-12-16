@@ -5,6 +5,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
@@ -57,7 +59,7 @@ public class ManageInstructorsFrame extends JFrame {
 
 	public ManageInstructorsFrame(){
 		setTitle("University Management System - Admin - Manage Instructors");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 997, 486);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -239,6 +241,11 @@ public class ManageInstructorsFrame extends JFrame {
     				}
     				instructorsTableModel.addRow(row);
 					FileStuff.addUser(userData, "db/_instructors.txt");
+
+					ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(row[5].toString().split("_")));
+					Instructor tempUser = new Instructor(Integer.parseInt(row[0].toString().trim()),row[1].toString(),row[2].toString(),row[3].toString(),row[4].toString(),coursesArrayList,row[6].toString(),row[7].toString(),row[8].toString());
+					tempUser.add();
+
     				clear();
     				JOptionPane.showMessageDialog(null,"Instructor Added Successfully");
         		}
@@ -264,6 +271,10 @@ public class ManageInstructorsFrame extends JFrame {
 					JOptionPane.showMessageDialog(null,"Updated Successfully");
 					int idInt = Integer.parseInt(textFields[0].getText().trim());
 					FileStuff.updateUser(userData, idInt, "db/_instructors.txt");
+
+					ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(row[5].toString().split("_")));
+					Instructor.edit(idInt,row[1].toString(),row[2].toString(),row[3].toString(),row[4].toString(),coursesArrayList,row[6].toString(),row[7].toString(),row[8].toString());
+
 					clear();
 				}
 				else{
@@ -282,7 +293,11 @@ public class ManageInstructorsFrame extends JFrame {
         		if(selectedRow>=0){
 					instructorsTableModel.removeRow(selectedRow);
 					JOptionPane.showMessageDialog(null,"Row Deleted Successfully");
-					FileStuff.deleteUser(Integer.parseInt(idField.getText().trim()) ,"db/_instructors.txt");
+					int id = Integer.parseInt(idField.getText().trim());
+
+					FileStuff.deleteUser(id ,"db/_instructors.txt");
+					Instructor.delete(id);
+
 					clear();
         		}
         		else{
