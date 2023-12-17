@@ -6,7 +6,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -377,7 +376,9 @@ public class ManageStudentsFrame extends JFrame {
 					
 					int id = Integer.parseInt(idField.getText().trim());
 					FileStuff.deleteUser(id ,"db/_students.txt");
-					Student.delete(id);
+					
+					Student emptyStudentToAvoidStaticMethods = new Student();
+					emptyStudentToAvoidStaticMethods.delete(id);
 
 					clear();
         		}

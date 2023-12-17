@@ -5,6 +5,8 @@ public class Person {
     private String phoneNumber;
     private String email;
 
+    public Person(){}
+
     Person(String name,String address,String phoneNumber,String email){
         this.name = name;
         this.address = address;

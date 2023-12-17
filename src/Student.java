@@ -18,6 +18,8 @@ public class Student extends Person implements Managable{
     private ArrayList<String> clubs = new ArrayList<String>();
     private ArrayList<String> clubDescriptions = new ArrayList<String>();
 
+    public Student(){}
+
     public Student(int id,String name,String address,String phoneNumber,String email,String studentNumber,String pwd, String faculty, String department, String gradeLevel, String annual_fee,ArrayList<String> courses, ArrayList<String> grades, ArrayList<String> clubs, ArrayList<String> clubDescriptions){
         super(name,address,phoneNumber,email);
         this.student_id = id;
@@ -90,7 +92,6 @@ public class Student extends Person implements Managable{
     @Override
     public void add(){
         students.put(this.getStudentId(), this);
-        //System.out.println(students);
     }
 
     public static void edit(int id, String name,String address,String phoneNumber,String email,String pwd, String faculty, String department, String gradeLevel, String annual_fee,ArrayList<String> courses, ArrayList<String> grades, ArrayList<String> clubs, ArrayList<String> clubDescriptions) {
@@ -115,7 +116,8 @@ public class Student extends Person implements Managable{
         }
     }
 
-    public static void delete(int id) {
+    @Override
+    public void delete(int id) {
         Student student = students.get(id);
         if(student != null){
             students.put(id, null);
@@ -126,7 +128,8 @@ public class Student extends Person implements Managable{
         }
     }
 
-    public static void addExistingStudentsToTheMap(){
+    @Override
+    public void addExistingUsersToTheMaps(){
         ArrayList<String> studentsList = FileStuff.readTxt("db/_students.txt");
 
         for(int i=0;i<studentsList.size();i++){

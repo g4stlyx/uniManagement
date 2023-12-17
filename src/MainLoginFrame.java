@@ -48,9 +48,12 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 
 	public MainLoginFrame() {
 
-		Student.addExistingStudentsToTheMap();
+		Student emptyStudentToAvoidStaticMethods = new Student();
+		emptyStudentToAvoidStaticMethods.addExistingUsersToTheMaps();
 		System.out.println(Student.getAllStudents());
-		Instructor.addExistingInstructorsToTheMap();
+
+		Instructor emptyInstructorToAvoidStaticMethods = new Instructor();
+		emptyInstructorToAvoidStaticMethods.addExistingUsersToTheMaps();
 		System.out.println(Instructor.getAllInstructors());
 		
 

@@ -197,8 +197,6 @@ public class ManageInstructorsFrame extends JFrame {
         instructorsTable.getColumnModel().getColumn(7).setPreferredWidth(45);
         instructorsTable.getColumnModel().getColumn(7).setPreferredWidth(45);
 
-
-
 		// get default values from txt
         ArrayList<String> instructors= FileStuff.readTxt("db/_instructors.txt");
 		Object[] row = new  Object[9];
@@ -284,7 +282,7 @@ public class ManageInstructorsFrame extends JFrame {
 					int idInt = Integer.parseInt(textFields[0].getText().trim());
 					FileStuff.updateUser(userData, idInt, "db/_instructors.txt");
 
-					ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(row[5].toString().split("_")));
+					ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(row[5].toString().split("_")));					
 					Instructor.edit(idInt,row[1].toString(),row[2].toString(),row[3].toString(),row[4].toString(),coursesArrayList,row[6].toString(),row[7].toString(),row[8].toString());
 
 					clear();
@@ -308,7 +306,8 @@ public class ManageInstructorsFrame extends JFrame {
 					int id = Integer.parseInt(idField.getText().trim());
 
 					FileStuff.deleteUser(id ,"db/_instructors.txt");
-					Instructor.delete(id);
+					Instructor emptyInstructorToAvoidStaticMethods = new Instructor();
+					emptyInstructorToAvoidStaticMethods.delete(id);
 
 					clear();
         		}
