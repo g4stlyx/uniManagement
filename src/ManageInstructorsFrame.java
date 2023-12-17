@@ -222,32 +222,44 @@ public class ManageInstructorsFrame extends JFrame {
 	   // add button
 	   addButton = new JButton("Add");
        addButton.addActionListener(new ActionListener() {
-    	   	// TODO: yeni özelliklerle new instructor() oluştur -later-
         	public void actionPerformed(ActionEvent e) {
         		String userData = "";
+				Boolean isUserNameUnique = true;
+				for(int i=0;i<instructors.size();i++){
+						String userN = instructors.get(i).split("-")[7].trim();
+						if(textFields[7].getText().trim().equals(userN)){
+							isUserNameUnique = false;
+						}
+				}
+
 				if(textFields[1].getText().equals("") || textFields[2].getText().equals("") || textFields[3].getText().equals("") || textFields[6].getText().equals("") || textFields[7].getText().equals("") ){
-    				JOptionPane.showMessageDialog(null,"Fill All Fields");
+    				JOptionPane.showMessageDialog(null,"Please Fill All Fields");
         		}
         		else{
-    				idCounter++;
-					for(int i=0;i<textFields.length;i++){
-						row[i] = textFields[i].getText();
-						row[0] = idCounter;
+    				if(isUserNameUnique){
+						idCounter++;
+						for(int i=0;i<textFields.length;i++){
+							row[i] = textFields[i].getText();
+							row[0] = idCounter;
 
-						userData = userData + row[i];
-						if(i!=textFields.length-1){
-							userData = userData + "-";
+							userData = userData + row[i];
+							if(i!=textFields.length-1){
+								userData = userData + "-";
+							}
 						}
-    				}
-    				instructorsTableModel.addRow(row);
-					FileStuff.addUser(userData, "db/_instructors.txt");
+						instructorsTableModel.addRow(row);
+						FileStuff.addUser(userData, "db/_instructors.txt");
 
-					ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(row[5].toString().split("_")));
-					Instructor tempUser = new Instructor(Integer.parseInt(row[0].toString().trim()),row[1].toString(),row[2].toString(),row[3].toString(),row[4].toString(),coursesArrayList,row[6].toString(),row[7].toString(),row[8].toString());
-					tempUser.add();
+						ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(row[5].toString().split("_")));
+						Instructor tempUser = new Instructor(Integer.parseInt(row[0].toString().trim()),row[1].toString(),row[2].toString(),row[3].toString(),row[4].toString(),coursesArrayList,row[6].toString(),row[7].toString(),row[8].toString());
+						tempUser.add();
 
-    				clear();
-    				JOptionPane.showMessageDialog(null,"Instructor Added Successfully");
+						clear();
+						JOptionPane.showMessageDialog(null,"Instructor Added Successfully");
+					}
+					else{
+						JOptionPane.showMessageDialog(null,"Username must be unique!");
+					}
         		}
         	}
         });

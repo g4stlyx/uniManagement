@@ -54,7 +54,6 @@ public class Instructor extends Person implements Managable {
     @Override
     public void add(){
         instructors.put(this.getId(), this);
-        System.out.println(instructors);
     }
 
     public static void edit(int id,String name,String address,String phoneNumber,String email,ArrayList<String> courses,String salary, String username, String password) {
@@ -78,7 +77,6 @@ public class Instructor extends Person implements Managable {
         Instructor instructor = instructors.get(id);
         if(instructor != null){
             instructors.put(id, null);
-            System.out.println(instructors);
         } 
         else{
             System.out.println("No User Found With the id " + id);
@@ -86,6 +84,9 @@ public class Instructor extends Person implements Managable {
     }
 
     public static void addExistingInstructorsToTheMap(){
+        // TODO: önemli
+        // static kullanımının önüne geçmek için Student(){} constructor'ıyla new Student() oluşturulabilir
+        // böylece tüm methodları static'ten kurtarıp düz yazabilirsin, => abstract yazılabilirler, interface'lerden çağırılabilirler
         ArrayList<String> instructorsList = FileStuff.readTxt("db/_instructors.txt");
 
         for(int i=0;i<instructorsList.size();i++){

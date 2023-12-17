@@ -258,7 +258,8 @@ public class FileStuff {
       *her yeni user için pwd otomatikleştirilebilir
 
       *login işini bir methoda, interface'e vs yazabilirsin
-      bunu da yine tüm class'larda çağırırsın
+      bu person classında abstract method olarak tanımlanabilir
+      ya da Login diye bir interface olarak
 
       
      

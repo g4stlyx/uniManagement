@@ -84,7 +84,6 @@ public class Student extends Person implements Managable{
     }
     @Override
     public String toString(){
-        // TODO: edit all toString functions
         return "Student: "+getName()+", "+getFaculty()+", "+getDepartment()+", "+getCourses();
     }
 
