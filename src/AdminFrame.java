@@ -62,5 +62,15 @@ public class AdminFrame extends JFrame {
 		});
 		addInstructorButton.setBounds(369, 214, 285, 51);
 		contentPane.add(addInstructorButton);
+
+		JButton goBack = new JButton("Go Back");
+		goBack.setBounds(23, 30, 100, 37);
+		goBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new MainLoginFrame().setVisible(true);
+				dispose();
+			}
+		});
+		contentPane.add(goBack);
 	}
 }

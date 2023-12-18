@@ -6,7 +6,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
@@ -154,7 +153,7 @@ public class ManageStudentsFrame extends JFrame {
 		facultyLabel.setBounds(350, 63, 69, 16);
 		contentPane.add(facultyLabel);
 				
-		passwordField = textFields[6] = new JTextField();;
+		passwordField = textFields[6] = new JTextField();
 		passwordField.setColumns(10);
 		passwordField.setBounds(431, 34, 118, 20);
 		contentPane.add(passwordField);

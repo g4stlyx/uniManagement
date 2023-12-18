@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class FileStuff {
     FileStuff(){}
+    // TODO: dosya okuyup yazarken String değil Object(Student,Instructor) kullan
 
     public static ArrayList<String> readTxt(String pathname) {
         try {
@@ -249,20 +250,4 @@ public class FileStuff {
             System.out.println(ex.getMessage());
         }
     }
-
-    // TODO:
-    /*
-      *add,edit,delete için interface yaz,
-      hem student'da hem instructor'da bunu çağır
-
-      *her yeni user için pwd otomatikleştirilebilir
-
-      *login işini bir methoda, interface'e vs yazabilirsin
-      bu person classında abstract method olarak tanımlanabilir
-      ya da Login diye bir interface olarak
-
-      
-     
-    */
-
 }

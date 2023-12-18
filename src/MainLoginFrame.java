@@ -154,7 +154,6 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 				isAdminLoginSuccessful = true;
 			}
 		}
-		
 	}
 	
 	ActionListener loginButtonListener = new ActionListener(){

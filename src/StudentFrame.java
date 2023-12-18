@@ -387,5 +387,14 @@ public class StudentFrame extends JFrame {
 		clubsButton.setBounds(10, 268, 250, 52);
 		contentPane.add(clubsButton);
 				
+		JButton goBack = new JButton("Go Back");
+		goBack.setBounds(23, 30, 100, 37);
+		goBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new MainLoginFrame().setVisible(true);
+				dispose();
+			}
+		});
+		contentPane.add(goBack);
 	}
 }

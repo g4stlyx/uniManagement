@@ -63,7 +63,7 @@ public class InstructorFrame extends JFrame {
 		JLabel welcomeLabel = new JLabel("Welcome back, "+ instructor.split("-")[1]);
 		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomeLabel.setFont(new Font("Tahoma", Font.BOLD, 34));
-		welcomeLabel.setBounds(31, 11, 927, 63);
+		welcomeLabel.setBounds(232, 10, 570, 63);
 		contentPane.add(welcomeLabel);
 		
 		// ********
@@ -324,5 +324,15 @@ public class InstructorFrame extends JFrame {
 		studentsInfoButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		studentsInfoButton.setBounds(10, 205, 250, 52);
 		contentPane.add(studentsInfoButton);
+		
+		JButton goBack = new JButton("Go Back");
+		goBack.setBounds(23, 30, 100, 37);
+		goBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new MainLoginFrame().setVisible(true);
+				dispose();
+			}
+		});
+		contentPane.add(goBack);
 	}
 }

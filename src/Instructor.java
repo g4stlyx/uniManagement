@@ -98,30 +98,4 @@ public class Instructor extends Person implements Managable {
         }
     }
 
-    // public static void delete(int id) {
-    //     Instructor instructor = instructors.get(id);
-    //     if(instructor != null){
-    //         instructors.put(id, null);
-    //     } 
-    //     else{
-    //         System.out.println("No User Found With the id " + id);
-    //     }
-    // }
-
-    // public static void addExistingInstructorsToTheMap(){
-    //     // TODO: önemli
-    //     // static kullanımının önüne geçmek için Student(){} constructor'ıyla new Student() oluşturulabilir
-    //     // böylece tüm methodları static'ten kurtarıp düz yazabilirsin, => abstract yazılabilirler, interface'lerden çağırılabilirler
-    //     ArrayList<String> instructorsList = FileStuff.readTxt("db/_instructors.txt");
-
-    //     for(int i=0;i<instructorsList.size();i++){
-    //         String[] values = instructorsList.get(i).split("-");
-    //         ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(values[5].toString().split("_")));
-    //         Instructor tempUser = new Instructor(Integer.parseInt(values[0].toString().trim()),values[1].toString(),values[2].toString(),values[3].toString(),values[4].toString(),coursesArrayList,values[6].toString(),values[7].toString(),values[8].toString());
-    //         tempUser.add();
-    //     }
-    // }
-
-
-
 }
