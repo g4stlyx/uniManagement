@@ -8,8 +8,6 @@ import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.Color;
@@ -37,7 +35,7 @@ public class StudentFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					StudentFrame frame = new StudentFrame("a");
+					StudentFrame frame = new StudentFrame(new Student());
 					frame.setVisible(true);
 					frame.getContentPane().setLayout(null);
 				} catch (Exception e) {
@@ -47,7 +45,7 @@ public class StudentFrame extends JFrame {
 		});
 	}
 
-	public StudentFrame(String student) {
+	public StudentFrame(Student student) {
 		setTitle("University Management System - Student");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1100, 462);
@@ -56,7 +54,7 @@ public class StudentFrame extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		
-		JLabel welcomeLabel = new JLabel("Welcome back, "+ student.split("-")[1]);
+		JLabel welcomeLabel = new JLabel("Welcome back, "+ student.getName());
 		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomeLabel.setFont(new Font("Tahoma", Font.BOLD, 34));
 		welcomeLabel.setBounds(31, 11, 927, 63);
@@ -79,7 +77,7 @@ public class StudentFrame extends JFrame {
 		facultyField.setBounds(159, 47, 138, 35);
 		educationalInfoPanel.add(facultyField);
 		facultyField.setColumns(10);
-		facultyField.setText(student.split("-")[7]);
+		facultyField.setText(student.getFaculty());
 		facultyField.setEditable(false);
 		
 		JLabel departmentLabel = new JLabel("Department:");
@@ -90,10 +88,9 @@ public class StudentFrame extends JFrame {
 		departmentField = new JTextField();
 		departmentField.setColumns(10);
 		departmentField.setBounds(159, 100, 138, 35);
-		departmentField.setText(student.split("-")[8]);
+		departmentField.setText(student.getDepartment());
 		departmentField.setEditable(false);
 		educationalInfoPanel.add(departmentField);
-		
 		
 		JLabel gradeLevelLabel = new JLabel("Grade Level:");
 		gradeLevelLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -103,7 +100,7 @@ public class StudentFrame extends JFrame {
 		gradeLevelField = new JTextField();
 		gradeLevelField.setColumns(10);
 		gradeLevelField.setBounds(159, 180, 138, 35);
-		gradeLevelField.setText(student.split("-")[9]);
+		gradeLevelField.setText(student.getGradeLevel());
 		gradeLevelField.setEditable(false);
 		educationalInfoPanel.add(gradeLevelField);
 		
@@ -115,7 +112,7 @@ public class StudentFrame extends JFrame {
 		annualFeeField = new JTextField();
 		annualFeeField.setColumns(10);
 		annualFeeField.setBounds(159, 233, 138, 35);
-		annualFeeField.setText(student.split("-")[10]);
+		annualFeeField.setText(student.getAnnualFee());
 		annualFeeField.setEditable(false);
 		educationalInfoPanel.add(annualFeeField);
 		
@@ -139,8 +136,8 @@ public class StudentFrame extends JFrame {
 		coursesArea.setBounds(330, 48, 306, 221);
 		educationalInfoPanel.add(coursesArea);
 		
-		String[] coursesArray = student.split("-")[11].split("_");
-		String[] gradesArray = student.split("-")[12].split("_");
+		Object[] coursesArray = student.getCourses().toArray();
+		Object[] gradesArray = student.getGrades().toArray();
 
 		for(int i=0;i<coursesArray.length;i++){
 			JLabel[] coursesLabels = new JLabel[coursesArray.length];
@@ -156,8 +153,8 @@ public class StudentFrame extends JFrame {
 
 		for(int i=0;i<gradesArray.length;i++){
 			JLabel[] gradesLabels = new JLabel[gradesArray.length];
-			gradesLabels[i] = new JLabel(gradesArray[i]);
-			gradesLabels[i].setBorder(BorderFactory.createEmptyBorder(0,30,0,30)); // for the linespacing
+			gradesLabels[i] = new JLabel(gradesArray[i].toString());
+			gradesLabels[i].setBorder(BorderFactory.createEmptyBorder(0,30,0,30));
 			gradesLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
 			gradesLabels[i].setFont(new Font("Tahoma", Font.BOLD, 15));
 			gradesArea.add(gradesLabels[i]);
@@ -186,7 +183,7 @@ public class StudentFrame extends JFrame {
 		idField.setBounds(128, 78, 142, 29);
 		personalInfoPanel.add(idField);
 		idField.setColumns(10);
-		idField.setText(student.split("-")[0]);
+		idField.setText(""+student.getStudentId());
 		idField.setEditable(false);
 		
 		JLabel idLabel = new JLabel("ID:");
@@ -198,20 +195,20 @@ public class StudentFrame extends JFrame {
 		nameField.setColumns(10);
 		nameField.setBounds(128, 118, 142, 29);
 		personalInfoPanel.add(nameField);
-		nameField.setText(student.split("-")[1]);
+		nameField.setText(student.getName());
 		nameField.setEditable(false);
 		
 		phoneField = new JTextField();
 		phoneField.setColumns(10);
 		phoneField.setBounds(128, 158, 142, 29);
 		personalInfoPanel.add(phoneField);
-		phoneField.setText(student.split("-")[3]);
+		phoneField.setText(student.getPhoneNumber());
 		
 		addressField = new JTextField();
 		addressField.setColumns(10);
 		addressField.setBounds(388, 78, 396, 29);
 		personalInfoPanel.add(addressField);
-		addressField.setText(student.split("-")[2]);
+		addressField.setText(student.getAddress());
 		
 		JLabel nameLabel = new JLabel("Name:");
 		nameLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
@@ -237,7 +234,7 @@ public class StudentFrame extends JFrame {
 		emailField.setColumns(10);
 		emailField.setBounds(128, 199, 142, 29);
 		personalInfoPanel.add(emailField);
-		emailField.setText(student.split("-")[4]);
+		emailField.setText(student.getEmail());
 		
 		JLabel numberLabel = new JLabel("Number:");
 		numberLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
@@ -248,7 +245,7 @@ public class StudentFrame extends JFrame {
 		numberField.setColumns(10);
 		numberField.setBounds(128, 240, 142, 29);
 		personalInfoPanel.add(numberField);
-		numberField.setText(student.split("-")[5]);
+		numberField.setText(student.getStudentNumber());
 		numberField.setEditable(false);
 		
 		JLabel usernameLabel = new JLabel("Username:");
@@ -265,7 +262,7 @@ public class StudentFrame extends JFrame {
 		usernameField.setColumns(10);
 		usernameField.setBounds(496, 158, 142, 29);
 		personalInfoPanel.add(usernameField);
-		usernameField.setText(student.split("-")[5]);
+		usernameField.setText(student.getStudentNumber());
 		usernameField.setEditable(false);
 		
 		passwordField1 = new JPasswordField();
@@ -290,14 +287,10 @@ public class StudentFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String passwordInput1 = String.valueOf(passwordField1.getPassword());
 				String passwordInput2 = String.valueOf(passwordField2.getPassword());
-				if(passwordInput1.equals(student.split("-")[6]) && passwordInput2.equals(student.split("-")[6])){
+				if(passwordInput1.equals(student.getStudentPassword()) && passwordInput2.equals(student.getStudentNumber())){
 					int idInt = Integer.parseInt(idField.getText().trim());
 				
-					ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(student.split("-")[11].toString().split("_")));
-					ArrayList<String> gradesArrayList = new ArrayList<>(Arrays.asList(student.split("-")[12].toString().split("_ | ,")));
-					ArrayList<String> clubsArrayList = new ArrayList<String>(Arrays.asList(student.split("-")[13].toString().split("_")));
-					ArrayList<String> clubDescriptionsArrayList = new ArrayList<String>(Arrays.asList(student.split("-")[14].toString().split("_")));
-					Student.edit(idInt,student.split("-")[1].toString(),student.split("-")[2].toString(),student.split("-")[3].toString(),student.split("-")[4].toString(),student.split("-")[6].toString(),student.split("-")[7].toString(),student.split("-")[8].toString(),student.split("-")[9].toString(),student.split("-")[10].toString(),coursesArrayList,gradesArrayList,clubsArrayList,clubDescriptionsArrayList);
+					Student.edit(idInt,student.getName(),student.getAddress(),student.getPhoneNumber(),student.getEmail(),student.getStudentNumber(),student.getStudentPassword(),student.getFaculty(),student.getDepartment(),student.getGradeLevel(),student.getCourses(),student.getGrades(),student.getClubs(),student.getClubDescriptions());
 
 					FileStuff.editStudentsTxt(idInt,phoneField.getText(),emailField.getText(),addressField.getText());
 					passwordField1.setText("");
@@ -324,19 +317,19 @@ public class StudentFrame extends JFrame {
 		clubsPanel2.setBounds(0, 0, 794, 306);
 		clubsPanel.add(clubsPanel2);
 		
-		String[] clubsArray = student.split("-")[13].split("_");
-		String[] clubsDescriptionsArray = student.split("-")[14].split("_");
+		Object[] clubsArray = student.getClubs().toArray();
+		Object[] clubsDescriptionsArray = student.getClubDescriptions().toArray();
 		
 		for(int i=0;i<clubsArray.length;i++){
 			JLabel[] clubsLabels = new JLabel[clubsArray.length];
-			clubsLabels[i] = new JLabel(clubsArray[i]);
-			clubsLabels[i].setBorder(BorderFactory.createEmptyBorder(0,150,0,150));
+			clubsLabels[i] = new JLabel(clubsArray[i].toString());
+			clubsLabels[i].setBorder(BorderFactory.createEmptyBorder(0,200,0,200));
 			clubsLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
 			clubsLabels[i].setFont(new Font("Tahoma", Font.BOLD, 18));
 						
 			JLabel[] clubsDescriptionsLabels = new JLabel[clubsArray.length];
 			clubsDescriptionsLabels[i] = new JLabel("-"+clubsDescriptionsArray[i]);
-			clubsDescriptionsLabels[i].setBorder(BorderFactory.createEmptyBorder(0,150,0,150));
+			clubsDescriptionsLabels[i].setBorder(BorderFactory.createEmptyBorder(0,200,0,200));
 			clubsDescriptionsLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
 			clubsDescriptionsLabels[i].setFont(new Font("Tahoma", Font.BOLD, 14));
 			

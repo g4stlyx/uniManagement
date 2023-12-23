@@ -1,11 +1,11 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class Student extends Person implements Managable{
 
     private static HashMap<Integer, Student> students = new HashMap<>(); 
 
+    private static final long serialVersionUID = 1L;
     private int student_id; // id in person?
     private String studentNumber; // int? 
     private String studentPassword; // password in person?
@@ -64,29 +64,9 @@ public class Student extends Person implements Managable{
     public ArrayList<String> getClubDescriptions(){return clubDescriptions;}
     public void setClubDescriptions(ArrayList<String> clubDescriptions){this.clubDescriptions=clubDescriptions;}
 
-
-    public void addCourseGrade(String course,String grade){
-        courses.add(course);
-        grades.add(grade);
-    }
-    public void printGrades(){
-        for(int i=0;i<courses.size();i++){
-            System.out.println(courses.get(i)+": "+grades.get(i));
-        }
-    }
-    public boolean studentLogin(int student_id, String student_password){
-        if(student_id == this.student_id && student_password == this.studentPassword){
-            System.out.println("Student login successful");
-            return true;
-        }
-        else{
-            System.out.println("Student login failed");
-            return false;
-        }
-    }
     @Override
     public String toString(){
-        return "Student: "+getName()+", "+getFaculty()+", "+getDepartment()+", "+getCourses();
+        return "Student: "+getName()+", "+getFaculty()+", "+getDepartment()+", "+getCourses() +", "+ getGrades();
     }
 
     @Override
@@ -95,25 +75,28 @@ public class Student extends Person implements Managable{
     }
 
     public static void edit(int id, String name,String address,String phoneNumber,String email,String pwd, String faculty, String department, String gradeLevel, String annual_fee,ArrayList<String> courses, ArrayList<String> grades, ArrayList<String> clubs, ArrayList<String> clubDescriptions) {
-        Student student = students.get(id);
-        if (student != null) {
-            student.setName(name);
-            student.setAddress(address);
-            student.setPhoneNumber(phoneNumber);
-            student.setEmail(email);
-            student.setStudentPassword(pwd);
-            student.setFaculty(faculty);
-            student.setDepartment(department);
-            student.setGradeLevel(gradeLevel);
-            student.setAnnualFee(annual_fee);
-            student.setCourses(courses);
-            student.setGrades(grades);
-            student.setClubs(clubs);
-            student.setClubDescriptions(clubDescriptions);
-        } 
-        else{
-            System.out.println("No User Found With the id " + id);
+        HashMap<Integer,Person> data = FileStuff.readTxt("db/_students.ser");
+        Person person = data.get(id);
+        Student student = (Student)person;
+        if (student != null){
+            Student chosenStudent = student;
+            chosenStudent.setName(name);
+            chosenStudent.setAddress(address);
+            chosenStudent.setPhoneNumber(phoneNumber);
+            chosenStudent.setEmail(email);
+            chosenStudent.setStudentPassword(pwd);
+            chosenStudent.setFaculty(faculty);
+            chosenStudent.setDepartment(department);
+            chosenStudent.setGradeLevel(gradeLevel);
+            chosenStudent.setAnnualFee(annual_fee);
+            chosenStudent.setCourses(courses);
+            chosenStudent.setGrades(grades);
+            chosenStudent.setClubs(clubs);
+            chosenStudent.setClubDescriptions(clubDescriptions);
+            data.remove(student.getStudentId());
+            data.put(chosenStudent.getStudentId(),chosenStudent);
         }
+        FileStuff.writeTxt(data, "db/_students.ser");
     }
 
     @Override
@@ -123,26 +106,14 @@ public class Student extends Person implements Managable{
             students.put(id, null);
             System.out.println(students);
         } 
-        else{
-            System.out.println("No User Found With the id " + id);
-        }
     }
 
     @Override
     public void addExistingUsersToTheMaps(){
-        ArrayList<String> studentsList = FileStuff.readTxt("db/_students.txt");
-
-        for(int i=0;i<studentsList.size();i++){
-            String[] studentValues = studentsList.get(i).split("-");
-            ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(studentValues[11].toString().split("_")));
-            ArrayList<String> gradesArrayList = new ArrayList<>(Arrays.asList(studentValues[12].toString().split("_ | ,"))); 
-            ArrayList<String> clubsArrayList = new ArrayList<String>(Arrays.asList(studentValues[13].toString().split("_"))); 
-            ArrayList<String> clubDescriptionsArrayList = new ArrayList<String>(Arrays.asList(studentValues[14].toString().split("_")));  
-            Student tempStudent = new Student(Integer.parseInt(studentValues[0].toString().trim()),studentValues[1].toString(),studentValues[2].toString(),studentValues[3].toString(),studentValues[4].toString(),studentValues[5].toString(),studentValues[6].toString(),studentValues[7].toString(),studentValues[8].toString(),studentValues[9].toString(),studentValues[10].toString(),coursesArrayList,gradesArrayList,clubsArrayList,clubDescriptionsArrayList);
-            tempStudent.add();
+        HashMap<Integer,Person> students = FileStuff.readTxt("db/_students.ser");
+        for(Person person:students.values()){
+            Student student = (Student)person;
+            student.add();
         }
     }
-
-
-
 }

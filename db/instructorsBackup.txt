@@ -1,4 +1,0 @@
-1-John Doe-123 Main Street, Cityville-1234567890-johndoe@email.com-Computer Science_Mathematics_Literature-50000-johndoe-123
-2-Jane Smith-456 Elm Street, Townsville-9876543210-janesmith@email.com-Physics_Chemistry-45000-janesmith-123
-3-Alex Johnson-789 Oak Avenue, Villagetown-5551234567-alexjohnson@email.com-Biology_History-55000-alexjohnson-123
-4-Emily Williams-567 Pine Street, Hamletville-3335557777-emilywilliams@email.com-Art_Economics-40000-emilywilliams-123

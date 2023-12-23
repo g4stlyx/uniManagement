@@ -14,7 +14,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
@@ -32,16 +32,16 @@ public class InstructorFrame extends JFrame {
 	private JPasswordField passwordField1;
 	private JPasswordField passwordField2;
 	private JList coursesList;
-	private int selectedIndex;
 	private JTextField[] gradesTextFields;
-	String selectedStudent;
+	Student selectedStudent;
 	private String[] selectedStudentCoursesArray;
+	private String[] selectedStudentGradesArray;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InstructorFrame frame = new InstructorFrame("a");
+					InstructorFrame frame = new InstructorFrame(new Instructor());
 					frame.setVisible(true);
 					frame.getContentPane().setLayout(null);
 				} catch (Exception e) {
@@ -51,7 +51,7 @@ public class InstructorFrame extends JFrame {
 		});
 	}
 
-	public InstructorFrame(String instructor) {
+	public InstructorFrame(Instructor instructor) {
 		setTitle("University Management System - Instructor");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1100, 462);
@@ -60,7 +60,7 @@ public class InstructorFrame extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		
-		JLabel welcomeLabel = new JLabel("Welcome back, "+ instructor.split("-")[1]);
+		JLabel welcomeLabel = new JLabel("Welcome back, "+ instructor.getName());
 		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomeLabel.setFont(new Font("Tahoma", Font.BOLD, 34));
 		welcomeLabel.setBounds(232, 10, 570, 63);
@@ -85,7 +85,7 @@ public class InstructorFrame extends JFrame {
 		idField.setBounds(128, 78, 142, 29);
 		personalInfoPanel.add(idField);
 		idField.setColumns(10);
-		idField.setText(instructor.split("-")[0]);
+		idField.setText(""+instructor.getId());
 		idField.setEditable(false);
 		
 		JLabel idLabel = new JLabel("ID:");
@@ -97,20 +97,20 @@ public class InstructorFrame extends JFrame {
 		nameField.setColumns(10);
 		nameField.setBounds(128, 133, 142, 29);
 		personalInfoPanel.add(nameField);
-		nameField.setText(instructor.split("-")[1]);
+		nameField.setText(instructor.getName());
 		nameField.setEditable(false);
 		
 		phoneField = new JTextField();
 		phoneField.setColumns(10);
 		phoneField.setBounds(128, 185, 142, 29);
 		personalInfoPanel.add(phoneField);
-		phoneField.setText(instructor.split("-")[3]);
+		phoneField.setText(instructor.getPhoneNumber());
 		
 		addressField = new JTextField();
 		addressField.setColumns(10);
 		addressField.setBounds(388, 78, 396, 29);
 		personalInfoPanel.add(addressField);
-		addressField.setText(instructor.split("-")[2]);
+		addressField.setText(instructor.getAddress());
 		
 		JLabel nameLabel = new JLabel("Name:");
 		nameLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
@@ -136,7 +136,7 @@ public class InstructorFrame extends JFrame {
 		emailField.setColumns(10);
 		emailField.setBounds(128, 240, 142, 29);
 		personalInfoPanel.add(emailField);
-		emailField.setText(instructor.split("-")[4]);
+		emailField.setText(instructor.getEmail());
 		
 		JLabel usernameLabel = new JLabel("Username:");
 		usernameLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
@@ -152,7 +152,7 @@ public class InstructorFrame extends JFrame {
 		usernameField.setColumns(10);
 		usernameField.setBounds(496, 158, 142, 29);
 		personalInfoPanel.add(usernameField);
-		usernameField.setText(instructor.split("-")[7]);
+		usernameField.setText(instructor.getUsername());
 		usernameField.setEditable(false);
 		
 		passwordField1 = new JPasswordField();
@@ -176,14 +176,13 @@ public class InstructorFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String passwordInput1 = String.valueOf(passwordField1.getPassword());
 				String passwordInput2 = String.valueOf(passwordField2.getPassword());
-				if(passwordInput1.equals(instructor.split("-")[8]) && passwordInput2.equals(instructor.split("-")[8])){
+				if(passwordInput1.equals(instructor.getPassword()) && passwordInput2.equals(instructor.getPassword())){
 					int idInt = Integer.parseInt(idField.getText().trim());
 					FileStuff.editInstructorsTxt(idInt,phoneField.getText(),emailField.getText(),addressField.getText());
 					passwordField1.setText("");
 					passwordField2.setText("");
 
-					ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(instructor.split("-")[5].split("_")));
-					Instructor.edit(idInt,instructor.split("-")[1],addressField.getText(),phoneField.getText(),emailField.getText(),coursesArrayList,instructor.split("-")[6],instructor.split("-")[7],instructor.split("-")[8]);
+					Instructor.edit(idInt,instructor.getName(),addressField.getText(),phoneField.getText(),emailField.getText(),instructor.getCourses(),instructor.getSalary(),instructor.getUsername(),instructor.getPassword());
 
 					JOptionPane.showMessageDialog(contentPane,"Instructor Edited Successfully.","Success",JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -202,7 +201,7 @@ public class InstructorFrame extends JFrame {
 		studentsPanel.setVisible(false);
 		contentPane.add(studentsPanel);
 	
-		JList studentsList = new JList(FileStuff.readTxt("db/_students.txt").toArray());
+		JList studentsList = new JList(FileStuff.readTxt("db/_students.ser").values().toArray());
 		studentsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		studentsList.setBounds(10, 11, 153, 240);
 		studentsPanel.add(studentsList);
@@ -221,35 +220,37 @@ public class InstructorFrame extends JFrame {
 		JButton selectStudentButton = new JButton("Select Student");
 		selectStudentButton.setFont(new Font("Tahoma", Font.BOLD, 16));
 		selectStudentButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+    		public void actionPerformed(ActionEvent e) {
 				coursesListModel.clear();
 				gradesArea.removeAll();
+
+				selectedStudent = (Student)studentsList.getSelectedValue();
 				
-				selectedIndex = studentsList.getSelectedIndex();
-				selectedStudent = FileStuff.readTxt("db/_students.txt").get(selectedIndex);
-				selectedStudentCoursesArray = selectedStudent.split("-")[11].split("_");
-				String[] selectedStudentGradesArray = selectedStudent.split("-")[12].split("_");
-				
-				List<String> gradesList = new ArrayList<String>();		
-				for(int i=0;i<selectedStudentGradesArray.length;i++){
-					String[] temp = selectedStudentGradesArray[i].split(",");
-					for(int j=0;j<2;j++){
-						gradesList.add(temp[j]);
+				// ArrayList<String> to Object[], then to String[]
+				selectedStudentCoursesArray = selectedStudent.getCourses().toArray(new String[selectedStudent.getCourses().toArray().length]); // Returns an array of courses
+				selectedStudentGradesArray = selectedStudent.getGrades().toArray(new String[selectedStudent.getGrades().toArray().length]); // Returns an array of grades
+
+				List<String> gradesList = new ArrayList<>();
+				for (String grade : selectedStudentGradesArray) {
+					String[] temp = grade.split(",");
+					for (String gradePair : temp) {
+						String[] grades = gradePair.split("_");
+						Collections.addAll(gradesList, grades);
 					}
 				}
-				
+
 				coursesList.setListData(selectedStudentCoursesArray);
 				studentsPanel.add(coursesList);
-				
+
 				gradesTextFields = new JTextField[gradesList.size()];
-				for(int i=0;i<gradesList.size();i++){
+				for (int i = 0; i < gradesList.size(); i++) {
 					gradesTextFields[i] = new JTextField(gradesList.get(i));
-					gradesTextFields[i].setBorder(BorderFactory.createEmptyBorder(0,30,0,30));
+					gradesTextFields[i].setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 30));
 					gradesTextFields[i].setHorizontalAlignment(SwingConstants.CENTER);
 					gradesTextFields[i].setFont(new Font("Tahoma", Font.BOLD, 14));
 					gradesArea.add(gradesTextFields[i]);
 				}
-				
+
 				revalidate();
 				repaint();
 			}
@@ -263,39 +264,13 @@ public class InstructorFrame extends JFrame {
 		editStudentButton.setBounds(585, 262, 153, 33);
 		editStudentButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<String> combinedGrades = new ArrayList<>();
-				
-				for(int i=0;i<selectedStudentCoursesArray.length;i++){
-					StringBuilder singleCourseGrades = new StringBuilder();
-					
-					for(int j=0;j<gradesTextFields.length/selectedStudentCoursesArray.length;j++){
-						int index = i * (gradesTextFields.length / selectedStudentCoursesArray.length) + j;	
-						if(index < gradesTextFields.length) {
-							singleCourseGrades.append(gradesTextFields[index].getText());
-							if(j != gradesTextFields.length / selectedStudentCoursesArray.length - 1){
-								singleCourseGrades.append(","); // append "," if it is not the last grade of the certain course
-							}
-						}
-					}
-					combinedGrades.add(singleCourseGrades.toString());
+				ArrayList<String> grades = new ArrayList<>();
+				for (int i=0; i<gradesTextFields.length; i++) {
+					grades.add(gradesTextFields[i].getText());
 				}
 
-				StringBuilder newGrades = new StringBuilder();
-				for(int i = 0; i < combinedGrades.size(); i++){
-					newGrades.append(combinedGrades.get(i));
-					if(i != combinedGrades.size()-1){ // if it is not the last course, append _
-						newGrades.append("_");
-					}
-				}
-
-				int idInt = Integer.parseInt(selectedStudent.split("-")[0].trim());
-				ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(selectedStudent.split("-")[11].toString().split("_")));
-				ArrayList<String> gradesArrayList = new ArrayList<>(Arrays.asList(selectedStudent.split("-")[12].toString().split("_ | ,")));
-				ArrayList<String> clubsArrayList = new ArrayList<String>(Arrays.asList(selectedStudent.split("-")[13].toString().split("_")));
-				ArrayList<String> clubDescriptionsArrayList = new ArrayList<String>(Arrays.asList(selectedStudent.split("-")[14].toString().split("_")));
-				Student.edit(idInt,selectedStudent.split("-")[1].toString(),selectedStudent.split("-")[2].toString(),selectedStudent.split("-")[3].toString(),selectedStudent.split("-")[4].toString(),selectedStudent.split("-")[6].toString(),selectedStudent.split("-")[7].toString(),selectedStudent.split("-")[8].toString(),selectedStudent.split("-")[9].toString(),selectedStudent.split("-")[10].toString(),coursesArrayList,gradesArrayList,clubsArrayList,clubDescriptionsArrayList);
-
-				FileStuff.editStudentGrades(idInt,newGrades.toString());
+				Student.edit(selectedStudent.getStudentId(),selectedStudent.getName(),selectedStudent.getAddress(),selectedStudent.getPhoneNumber(),selectedStudent.getEmail(),selectedStudent.getStudentPassword(),selectedStudent.getFaculty(),selectedStudent.getDepartment(),selectedStudent.getAnnualFee(),selectedStudent.getAnnualFee(),selectedStudent.getCourses(),grades,selectedStudent.getClubs(),selectedStudent.getClubDescriptions());
+				FileStuff.editStudentGrades(selectedStudent.getStudentId(),grades);
 		 		JOptionPane.showMessageDialog(contentPane,"Student's Grades Edited Successfully.","Success",JOptionPane.INFORMATION_MESSAGE);
 			}
 		});

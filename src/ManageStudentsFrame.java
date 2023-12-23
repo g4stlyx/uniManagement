@@ -6,6 +6,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
@@ -233,16 +234,16 @@ public class ManageStudentsFrame extends JFrame {
 		clubsDescriptionsField.setBounds(824, 90, 147, 20);
 		contentPane.add(clubsDescriptionsField);
 		
-		noteDivide1 = new JLabel("*you must divide each course/club by \"_\"");
+		noteDivide1 = new JLabel("*you must divide each course/club by ','");
 		noteDivide1.setBounds(22, 122, 243, 16);
 		contentPane.add(noteDivide1);
 		
-		noteDivide2 = new JLabel("**you must divide each grade by \",\" , and course by \"_\"");
-		noteDivide2.setBounds(290, 122, 323, 16);
+		noteDivide2 = new JLabel("**you must divide each grade by ',' and enter two grades per course");
+		noteDivide2.setBounds(290, 122, 400, 16);
 		contentPane.add(noteDivide2);
 		
-		noteDivide3 = new JLabel("***clubs descriptions, divide them by \"_\"");
-		noteDivide3.setBounds(648, 119, 323, 16);
+		noteDivide3 = new JLabel("***clubs descriptions, divide them by ','");
+		noteDivide3.setBounds(715, 122, 323, 16);
 		contentPane.add(noteDivide3);
 		
 		// table
@@ -273,23 +274,35 @@ public class ManageStudentsFrame extends JFrame {
         studentsTable.getColumnModel().getColumn(9).setPreferredWidth(30);
         studentsTable.getColumnModel().getColumn(10).setPreferredWidth(50);
 
-		// get default values from txt
-        ArrayList<String> students= FileStuff.readTxt("db/_students.txt");
+		// get default values from ser
+        HashMap<Integer,Person> students= FileStuff.readTxt("db/_students.ser");
 		Object[] row = new  Object[15];
-       	for(int i=0;i<students.size();i++){
-    	  	String student = students.get(i);
-			for(int j=0;j<row.length;j++){
-				row[j] = student.split("-")[j];
-			}
+       	for(Person person:students.values()){
+    	  	Student student = (Student)person;
+			row[0] = student.getStudentId();
+			row[1] = student.getName();
+			row[2] = student.getAddress();
+			row[3] = student.getPhoneNumber();
+			row[4] = student.getEmail();
+			row[5] = student.getStudentNumber();
+			row[6] = student.getStudentPassword();
+			row[7] = student.getFaculty();
+			row[8] = student.getDepartment();
+			row[9] = student.getGradeLevel();
+			row[10] = student.getAnnualFee();
+			row[11] = arrayListToString(student.getCourses());
+			row[12] = arrayListToString(student.getGrades());
+			row[13] = arrayListToString(student.getClubs());
+			row[14] = arrayListToString(student.getClubDescriptions());
 			studentsTableModel.addRow(row);
        }
        
-       // find maxId among students and assign idCounter to the maxId+1
-	   int maxIdIndex;
-	   idCounter = Integer.parseInt(students.get(0).split("-")[0].trim());
-	   for(maxIdIndex=1;maxIdIndex<students.size();maxIdIndex++){
-			if(Integer.parseInt(students.get(maxIdIndex).split("-")[0].trim()) > idCounter){
-				idCounter = Integer.parseInt(students.get(maxIdIndex).split("-")[0].trim()) +1;
+       //find maxId among students and assign idCounter to the maxId+1
+	   int maxIdIndex=0;
+	   for(Person person : students.values()){
+			Student student = (Student)person;
+			if(student.getStudentId() > maxIdIndex){
+				idCounter = maxIdIndex = student.getStudentId() +1;
 			}
 	   }
 
@@ -297,7 +310,6 @@ public class ManageStudentsFrame extends JFrame {
 	   addButton = new JButton("Add");
        addButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		String userData = "";
 				if(textFields[1].getText().equals("") || textFields[2].getText().equals("") || textFields[3].getText().equals("") || textFields[6].getText().equals("") || textFields[7].getText().equals("") || textFields[8].getText().equals("") || textFields[9].getText().equals("") || textFields[10].getText().equals("") || textFields[11].getText().equals("") || textFields[12].getText().equals("") || textFields[13].getText().equals("") || textFields[14].getText().equals("") ){
     				JOptionPane.showMessageDialog(null,"Fill All Fields");
         		}
@@ -307,20 +319,15 @@ public class ManageStudentsFrame extends JFrame {
 						row[i] = textFields[i].getText();
 						row[0] = idCounter;
 						row[5] = "21030300" + idCounter;
-
-						userData = userData + row[i];
-						if(i!=textFields.length-1){
-							userData = userData + "-";
-						}
     				}
     				studentsTableModel.addRow(row);
-					FileStuff.addUser(userData, "db/_students.txt");
 	
-					ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(row[11].toString().split("_")));
-					ArrayList<String> gradesArrayList = new ArrayList<>(Arrays.asList(row[12].toString().split("_ | ,")));
-					ArrayList<String> clubsArrayList = new ArrayList<String>(Arrays.asList(row[13].toString().split("_")));
-					ArrayList<String> clubDescriptionsArrayList = new ArrayList<String>(Arrays.asList(row[14].toString().split("_")));
+					ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(row[11].toString().split(",")));
+					ArrayList<String> gradesArrayList = new ArrayList<>(Arrays.asList(row[12].toString().split(",")));
+					ArrayList<String> clubsArrayList = new ArrayList<String>(Arrays.asList(row[13].toString().split(",")));
+					ArrayList<String> clubDescriptionsArrayList = new ArrayList<String>(Arrays.asList(row[14].toString().split(",")));
 					Student tempStudent = new Student(Integer.parseInt(row[0].toString().trim()),row[1].toString(),row[2].toString(),row[3].toString(),row[4].toString(),row[5].toString(),row[6].toString(),row[7].toString(),row[8].toString(),row[9].toString(),row[10].toString(),coursesArrayList,gradesArrayList,clubsArrayList,clubDescriptionsArrayList);
+					FileStuff.addUser(tempStudent, "db/_students.ser");
 					tempStudent.add();
 
     				clear();
@@ -335,25 +342,22 @@ public class ManageStudentsFrame extends JFrame {
  	   	updateButton = new JButton("Update");
  	   	updateButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				String userData = "";
 				int selectedRow = studentsTable.getSelectedRow();
 				if(selectedRow>=0){ // 0'dan küçük = editlenecek satır seçilmemiş
-					for(int i=0;i<textFields.length;i++){
-						studentsTableModel.setValueAt(textFields[i].getText(), selectedRow, i);
-						userData = userData + textFields[i].getText();
-						if(i!=textFields.length-1){
-							userData = userData + "-";
-						}
-					}
 					JOptionPane.showMessageDialog(null,"Updated Successfully");
 					int idInt = Integer.parseInt(textFields[0].getText().trim());
-					FileStuff.updateUser(userData, idInt, "db/_students.txt");
 
-					ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(row[11].toString().split("_")));
-					ArrayList<String> gradesArrayList = new ArrayList<>(Arrays.asList(row[12].toString().split("_ | ,")));
-					ArrayList<String> clubsArrayList = new ArrayList<String>(Arrays.asList(row[13].toString().split("_")));
-					ArrayList<String> clubDescriptionsArrayList = new ArrayList<String>(Arrays.asList(row[14].toString().split("_")));
-					Student.edit(idInt,row[1].toString(),row[2].toString(),row[3].toString(),row[4].toString(),row[6].toString(),row[7].toString(),row[8].toString(),row[9].toString(),row[10].toString(),coursesArrayList,gradesArrayList,clubsArrayList,clubDescriptionsArrayList);
+					for(int i=0;i<textFields.length;i++){
+						studentsTableModel.setValueAt(textFields[i].getText(), selectedRow, i);
+					}
+
+					// String to array by split(,), then to arraylist since it is stored as arraylists in the Student
+					ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(textFields[11].getText().trim().split(",")));
+					ArrayList<String> gradesArrayList = new ArrayList<>(Arrays.asList(textFields[12].getText().trim().split(",")));
+					ArrayList<String> clubsArrayList = new ArrayList<String>(Arrays.asList(textFields[13].getText().trim().split(",")));
+					ArrayList<String> clubDescriptionsArrayList = new ArrayList<String>(Arrays.asList(textFields[14].getText().trim().split(",")));
+					
+					Student.edit(idInt,textFields[1].getText(),textFields[2].getText(),textFields[3].getText(),textFields[4].getText(),textFields[6].getText(),textFields[7].getText(),textFields[8].getText(),textFields[9].getText(),textFields[10].getText(),coursesArrayList,gradesArrayList,clubsArrayList,clubDescriptionsArrayList);
 					clear();
 				}
 				else{
@@ -374,7 +378,7 @@ public class ManageStudentsFrame extends JFrame {
 					JOptionPane.showMessageDialog(null,"Row Deleted Successfully");
 					
 					int id = Integer.parseInt(idField.getText().trim());
-					FileStuff.deleteUser(id ,"db/_students.txt");
+					FileStuff.deleteUser(id ,"db/_students.ser");
 					
 					Student emptyStudentToAvoidStaticMethods = new Student();
 					emptyStudentToAvoidStaticMethods.delete(id);
@@ -398,6 +402,14 @@ public class ManageStudentsFrame extends JFrame {
 		}
 	}
 
-
-
+	public static String arrayListToString(ArrayList<String> arrayList){
+		String str ="";
+            for(int i=0;i<arrayList.size();i++){
+            str += arrayList.get(i);
+			if(i != arrayList.size()-1){
+                str += ",";
+            }
+        }
+		return str;
+	}
 }

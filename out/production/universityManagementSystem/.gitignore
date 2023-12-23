@@ -1,6 +1,8 @@
+/Admin.class
 /AdminFrame$1.class
 /AdminFrame$2.class
 /AdminFrame$3.class
+/AdminFrame$4.class
 /AdminFrame.class
 /FileStuff.class
 /Instructor.class
@@ -10,8 +12,8 @@
 /InstructorFrame$4.class
 /InstructorFrame$5.class
 /InstructorFrame$6.class
+/InstructorFrame$7.class
 /InstructorFrame.class
-/Main.class
 /MainLoginFrame$1.class
 /MainLoginFrame$2.class
 /MainLoginFrame.class
@@ -35,7 +37,5 @@
 /StudentFrame$3.class
 /StudentFrame$4.class
 /StudentFrame$5.class
-/StudentFrame.class
-/InstructorFrame$7.class
-/AdminFrame$4.class
 /StudentFrame$6.class
+/StudentFrame.class

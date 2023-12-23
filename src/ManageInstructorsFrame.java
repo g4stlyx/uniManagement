@@ -6,6 +6,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -159,7 +160,7 @@ public class ManageInstructorsFrame extends JFrame {
 		passwordField.setBounds(655, 63, 200, 20);
 		contentPane.add(passwordField);
 		
-		noteDivide1 = new JLabel("*you must divide each course by '_'");
+		noteDivide1 = new JLabel("*you must divide each course by ','");
 		noteDivide1.setBounds(22, 122, 243, 16);
 		contentPane.add(noteDivide1);
 		
@@ -197,23 +198,28 @@ public class ManageInstructorsFrame extends JFrame {
         instructorsTable.getColumnModel().getColumn(7).setPreferredWidth(45);
         instructorsTable.getColumnModel().getColumn(7).setPreferredWidth(45);
 
-		// get default values from txt
-        ArrayList<String> instructors= FileStuff.readTxt("db/_instructors.txt");
+		// get default values from ser
+        HashMap<Integer, Person> instructors= FileStuff.readTxt("db/_instructors.ser");
 		Object[] row = new  Object[9];
-       	for(int i=0;i<instructors.size();i++){
-    	  	String instructor = instructors.get(i);
-			for(int j=0;j<row.length;j++){
-				row[j] = instructor.split("-")[j];
-			}
+       	for(Person person : instructors.values()){
+    	  	Instructor instructor = (Instructor)person;
+			row[0] = instructor.getId();
+			row[1] = instructor.getName();
+			row[2] = instructor.getAddress();
+			row[3] = instructor.getPhoneNumber();
+			row[4] = instructor.getEmail();
+			row[5] = ManageStudentsFrame.arrayListToString(instructor.getCourses());
+			row[6] = instructor.getSalary();
+			row[7] = instructor.getUsername();
+			row[8] = instructor.getPassword();
 			instructorsTableModel.addRow(row);
        }
        
-       // find maxId among instructors and assign idCounter to the maxId+1
-	   int maxIdIndex;
-	   idCounter = Integer.parseInt(instructors.get(0).split("-")[0].trim());
-	   for(maxIdIndex=1;maxIdIndex<instructors.size();maxIdIndex++){
-			if(Integer.parseInt(instructors.get(maxIdIndex).split("-")[0].trim()) > idCounter){
-				idCounter = Integer.parseInt(instructors.get(maxIdIndex).split("-")[0].trim()) +1;
+	   int maxIdIndex=0;
+	   for(Person person : instructors.values()){
+			Instructor instructor = (Instructor)person;
+			if(instructor.getId() > maxIdIndex){
+				idCounter = maxIdIndex = instructor.getId() +1;
 			}
 	   }
 
@@ -221,10 +227,10 @@ public class ManageInstructorsFrame extends JFrame {
 	   addButton = new JButton("Add");
        addButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		String userData = "";
 				Boolean isUserNameUnique = true;
-				for(int i=0;i<instructors.size();i++){
-						String userN = instructors.get(i).split("-")[7].trim();
+				for(Person person : instructors.values()){
+					    Instructor instructor = (Instructor)person;
+						String userN = instructor.getUsername().trim();
 						if(textFields[7].getText().trim().equals(userN)){
 							isUserNameUnique = false;
 						}
@@ -239,18 +245,15 @@ public class ManageInstructorsFrame extends JFrame {
 						for(int i=0;i<textFields.length;i++){
 							row[i] = textFields[i].getText();
 							row[0] = idCounter;
-
-							userData = userData + row[i];
-							if(i!=textFields.length-1){
-								userData = userData + "-";
-							}
 						}
 						instructorsTableModel.addRow(row);
-						FileStuff.addUser(userData, "db/_instructors.txt");
-
-						ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(row[5].toString().split("_")));
-						Instructor tempUser = new Instructor(Integer.parseInt(row[0].toString().trim()),row[1].toString(),row[2].toString(),row[3].toString(),row[4].toString(),coursesArrayList,row[6].toString(),row[7].toString(),row[8].toString());
-						tempUser.add();
+						
+						int id = Integer.parseInt(row[0].toString().trim());
+						ArrayList<String> courses = new ArrayList<>(Arrays.asList(row[5].toString().split(",")));
+						
+						Instructor user = new Instructor(id,row[1].toString(),row[2].toString(),row[3].toString(),row[4].toString(),courses,row[6].toString(),row[7].toString(),row[8].toString());
+						FileStuff.addUser(user, "db/_instructors.ser");
+						user.add();
 
 						clear();
 						JOptionPane.showMessageDialog(null,"Instructor Added Successfully");
@@ -268,22 +271,17 @@ public class ManageInstructorsFrame extends JFrame {
  	   	updateButton = new JButton("Update");
  	   	updateButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				String userData = "";
 				int selectedRow = instructorsTable.getSelectedRow();
 				if(selectedRow>=0){ // 0'dan küçük = editlenecek satır seçilmemiş
-					for(int i=0;i<textFields.length;i++){
-						instructorsTableModel.setValueAt(textFields[i].getText(), selectedRow, i);
-						userData = userData + textFields[i].getText();
-						if(i!=textFields.length-1){
-							userData = userData + "-";
-						}
-					}
 					JOptionPane.showMessageDialog(null,"Updated Successfully");
 					int idInt = Integer.parseInt(textFields[0].getText().trim());
-					FileStuff.updateUser(userData, idInt, "db/_instructors.txt");
 
-					ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(row[5].toString().split("_")));					
-					Instructor.edit(idInt,row[1].toString(),row[2].toString(),row[3].toString(),row[4].toString(),coursesArrayList,row[6].toString(),row[7].toString(),row[8].toString());
+					for(int i=0;i<textFields.length;i++){
+						instructorsTableModel.setValueAt(textFields[i].getText(), selectedRow, i);
+					}
+
+					ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(textFields[5].getText().trim().split(",")));					
+					Instructor.edit(idInt,textFields[1].getText(),textFields[2].getText(),textFields[3].getText(),textFields[4].getText(),coursesArrayList,textFields[6].getText(),textFields[7].getText(),textFields[8].getText());
 
 					clear();
 				}
@@ -305,7 +303,7 @@ public class ManageInstructorsFrame extends JFrame {
 					JOptionPane.showMessageDialog(null,"Row Deleted Successfully");
 					int id = Integer.parseInt(idField.getText().trim());
 
-					FileStuff.deleteUser(id ,"db/_instructors.txt");
+					FileStuff.deleteUser(id ,"db/_instructors.ser");
 					Instructor emptyInstructorToAvoidStaticMethods = new Instructor();
 					emptyInstructorToAvoidStaticMethods.delete(id);
 

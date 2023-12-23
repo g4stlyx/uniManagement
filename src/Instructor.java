@@ -1,11 +1,10 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class Instructor extends Person implements Managable {
     
     private static HashMap<Integer, Instructor> instructors = new HashMap<>(); 
-
+    private static final long serialVersionUID = 1L;
     private int id;
     private ArrayList<String> courses = new ArrayList<String>();
     private String salary;
@@ -42,17 +41,6 @@ public class Instructor extends Person implements Managable {
         return "Instructor: "+getUsername()+", "+getEmail();
     }
 
-    public boolean staffLogin(String staff_username, String staff_password){
-        if(staff_password == this.username && staff_password == this.password){
-            System.out.println("Instructor login successful");
-            return true;
-        }
-        else{
-            System.out.println("Instructor login failed");
-            return false;
-        }
-    }
-
     @Override
     public void add(){
         instructors.put(this.getId(), this);
@@ -63,39 +51,36 @@ public class Instructor extends Person implements Managable {
         Instructor instructor = instructors.get(id);
         if(instructor != null){
             instructors.put(id, null);
-        } 
-        else{
-            System.out.println("No User Found With the id " + id);
         }
     }
 
     @Override
     public void addExistingUsersToTheMaps(){
-        ArrayList<String> instructorsList = FileStuff.readTxt("db/_instructors.txt");
-
-        for(int i=0;i<instructorsList.size();i++){
-            String[] values = instructorsList.get(i).split("-");
-            ArrayList<String> coursesArrayList = new ArrayList<>(Arrays.asList(values[5].toString().split("_")));
-            Instructor tempUser = new Instructor(Integer.parseInt(values[0].toString().trim()),values[1].toString(),values[2].toString(),values[3].toString(),values[4].toString(),coursesArrayList,values[6].toString(),values[7].toString(),values[8].toString());
-            tempUser.add();
+        HashMap<Integer,Person> instructors = FileStuff.readTxt("db/_instructors.ser");
+        for(Person person:instructors.values()){
+            Instructor instructor = (Instructor)person;
+            instructor.add();
         }
     }
 
     public static void edit(int id,String name,String address,String phoneNumber,String email,ArrayList<String> courses,String salary, String username, String password) {
-        Instructor instructor = instructors.get(id);
+        HashMap<Integer,Person> data = FileStuff.readTxt("db/_instructors.ser");
+        Person person = data.get(id);
+        Instructor instructor = (Instructor)person;
         if (instructor != null) {
-            instructor.setName(name);
-            instructor.setAddress(address);
-            instructor.setPhoneNumber(phoneNumber);
-            instructor.setEmail(email);
-            instructor.setUsername(username);
-            instructor.setPassword(password);
-            instructor.setSalary(salary);
-            instructor.setCourses(courses);
-        } 
-        else{
-            System.out.println("No User Found With the id " + id);
+            Instructor chosenInstructor = instructor;
+            chosenInstructor.setName(name);
+            chosenInstructor.setAddress(address);
+            chosenInstructor.setPhoneNumber(phoneNumber);
+            chosenInstructor.setEmail(email);
+            chosenInstructor.setUsername(username);
+            chosenInstructor.setPassword(password);
+            chosenInstructor.setSalary(salary);
+            chosenInstructor.setCourses(courses);
+            data.remove(instructor.getId());
+            data.put(chosenInstructor.getId(), chosenInstructor);
         }
+        FileStuff.writeTxt(data, "db/_instructors.ser");
     }
 
 }

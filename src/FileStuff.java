@@ -1,252 +1,198 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.HashMap;
 
 public class FileStuff {
     FileStuff(){}
-    // TODO: dosya okuyup yazarken String değil Object(Student,Instructor) kullan
 
-    public static ArrayList<String> readTxt(String pathname) {
+    public static Admin readAdmin(){
+        Admin admin = null;
+        ObjectInputStream in = null;
         try {
-            File txtFile = new File(pathname);
-            Scanner scanner = new Scanner(txtFile);
-            ArrayList<String> dataTotal = new ArrayList<String>();
-            while (scanner.hasNextLine()) {
-                String data = scanner.nextLine();                
-                dataTotal.add("\n" + data);
-            }
-            scanner.close();
-            return dataTotal;
-        } catch (FileNotFoundException ex) {
+            in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("db/admin.ser")));
+            admin = (Admin) in.readObject();
+        } 
+        catch (EOFException e){
+        }
+        catch (ClassNotFoundException | IOException ex) {
             System.out.println(ex.getMessage());
-            return new ArrayList<String>();
+        }
+        catch(NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }
+        finally{
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        return admin;
+    }
+
+    public static HashMap<Integer,Person> readTxt(String pathname) {
+        HashMap<Integer,Person> users = new HashMap<>();
+        ObjectInputStream in = null;
+        try {
+            in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(pathname)));
+            users = (HashMap) in.readObject();
+        } 
+        catch (EOFException e){ // end of the file reached here
+        } 
+        catch (ClassNotFoundException | IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        finally{
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        return users;
+    }
+    
+    public static HashMap<Integer,Person> editStudentsTxt(int userId, String newPhone, String newEmail, String newAddress) {
+        HashMap<Integer,Person> data = readTxt("db/_students.ser");
+        Student chosenStudent;
+        for (Person person : data.values()) {
+            Student student = (Student)person;
+            if (student.getStudentId() == userId){
+                chosenStudent = student;
+                chosenStudent.setPhoneNumber(newPhone);
+                chosenStudent.setEmail(newEmail);
+                chosenStudent.setAddress(newAddress);
+                data.remove(student.getStudentId());
+                data.put(chosenStudent.getStudentId(), chosenStudent);
+                break;
+            }
+        }
+        writeTxt(data, "db/_instructors.ser");
+        return data;
+    }
+
+    public static void writeTxt(HashMap<Integer,Person> data,String pathname) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(pathname);
+            BufferedOutputStream bufferedOut = new BufferedOutputStream(fileOut);
+            ObjectOutputStream out = new ObjectOutputStream(bufferedOut);
+            out.writeObject(data);
+            out.close();
+            fileOut.close();
+        } catch (IOException i) {
+            i.printStackTrace();
         }
     }
 
-    public static ArrayList<String> editStudentsTxt(int userId, String newPhone, String newEmail, String newAddress) {
+    public static void writeTxt(Admin admin,String pathname){ // for the admin only
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("db/_students.txt"));
-            StringBuilder content = new StringBuilder();
-            String line;
-
-            ArrayList<String> studentData = readTxt("db/_students.txt");
-            String studentDataToEdit = "";
-            for (String student : studentData) {
-                if (Integer.parseInt(student.split("-")[0].trim()) == userId) {
-                    studentDataToEdit = student;
-                    break;
-                }
-            }
-            
-            String name = studentDataToEdit.split("-")[1];
-            String number = studentDataToEdit.split("-")[5];
-            String pwd = studentDataToEdit.split("-")[6];
-            String faculty = studentDataToEdit.split("-")[7];
-            String department = studentDataToEdit.split("-")[8];
-            String gradeLevel = studentDataToEdit.split("-")[9];
-            String annualPayment = studentDataToEdit.split("-")[10];
-            String courses = studentDataToEdit.split("-")[11];
-            String grades = studentDataToEdit.split("-")[12];
-            String clubs = studentDataToEdit.split("-")[13];
-            String clubsDescriptions = studentDataToEdit.split("-")[14];
-
-            String newStudentData = userId + "-" + name + "-" + newAddress + "-" + newPhone + "-" + newEmail + "-" + number
-                    + "-" + pwd + "-" + faculty + "-" + department + "-" + gradeLevel + "-" + annualPayment + "-"
-                    + courses + "-" + grades + "-" + clubs + "-" + clubsDescriptions;
-
-            while((line = reader.readLine()) != null){
-                String currentId=line.split("-")[0].trim();
-                if(Integer.parseInt(currentId) == userId){
-                    content.append(newStudentData);
-                }
-                else {
-                    content.append(line); 
-                }
-                content.append("\n");
-            }
-
-            BufferedWriter writer = new BufferedWriter(new FileWriter("db/_students.txt"));
-            writer.write(content.toString());
-
-            reader.close();
-            writer.close();
-            return studentData;
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            return new ArrayList<String>();
+            FileOutputStream fileOut = new FileOutputStream(pathname);
+            BufferedOutputStream bufferedOut = new BufferedOutputStream(fileOut);
+            ObjectOutputStream out = new ObjectOutputStream(bufferedOut);
+            out.writeObject(admin);
+            out.close();
+            fileOut.close();
+        } catch (IOException i) {
+            i.printStackTrace();
         }
     }
 
-    public static ArrayList<String> editInstructorsTxt(int userId, String newPhone, String newEmail, String newAddress) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("db/_instructors.txt"));
-            StringBuilder content = new StringBuilder();
-            String line;
-
-            ArrayList<String> instructorData = readTxt("db/_instructors.txt");
-            String instructorDataToEdit = "";
-            for (String instructor : instructorData) {
-                if (Integer.parseInt(instructor.split("-")[0]) == userId) {
-                    instructorDataToEdit = instructor;
-                    break;
-                }
+    public static HashMap<Integer,Person> editInstructorsTxt(int userId, String newPhone, String newEmail, String newAddress) {
+        HashMap<Integer,Person> instructorData = readTxt("db/_instructors.ser");
+        Instructor chosenInstructor;
+        for (Person person : instructorData.values()) {
+            Instructor instructor = (Instructor)person;
+            if (instructor.getId() == userId){
+                chosenInstructor = instructor;
+                chosenInstructor.setPhoneNumber(newPhone);
+                chosenInstructor.setEmail(newEmail);
+                chosenInstructor.setAddress(newAddress);
+                instructorData.remove(instructor.getId());
+                instructorData.put(chosenInstructor.getId(),chosenInstructor);
+                break;
             }
-
-            String name = instructorDataToEdit.split("-")[1];            
-            String courses = instructorDataToEdit.split("-")[5];
-            String salary = instructorDataToEdit.split("-")[6];
-            String username = instructorDataToEdit.split("-")[7];
-            String pwd = instructorDataToEdit.split("-")[8];
-
-            String newInstructorData = userId + "-" + name + "-" + newAddress + "-" + newPhone + "-" + newEmail + "-"
-                    + courses + "-" + salary + "-" + username + "-" + pwd ;
-
-            while((line = reader.readLine()) != null){
-	            String currentId=line.split("-")[0];
-	            if(Integer.parseInt(currentId) == userId){
-	                content.append(newInstructorData);
-	            }
-                else {
-	                content.append(line); 
-	            }               
-               content.append("\n");
-            }
-
-            BufferedWriter writer = new BufferedWriter(new FileWriter("db/_instructors.txt"));
-            writer.write(content.toString());
-
-            reader.close();
-            writer.close();
-            return instructorData;
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            return new ArrayList<String>();
         }
+        writeTxt(instructorData, "db/_instructors.ser");
+
+        return instructorData;
     }
 
-    public static ArrayList<String> editStudentGrades(int userId,String newGrades){
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("db/_students.txt"));
-            StringBuilder content = new StringBuilder();
-            String line;
-
-            ArrayList<String> studentData = readTxt("db/_students.txt");
-            String studentDataToEdit = "";
-            for (String student : studentData) {
-                if (Integer.parseInt(student.split("-")[0].trim()) == userId) {
-                    studentDataToEdit = student;
-                    break;
-                }
+    public static HashMap<Integer,Person> editStudentGrades(int userId,ArrayList<String> newGrades){
+        HashMap<Integer,Person> studentData = readTxt("db/_students.ser");
+        for (Person person : studentData.values()) {
+            Student student = (Student)person;
+            if (student.getStudentId() == userId) {
+                Student chosenStudent = student;
+                chosenStudent.setGrades(newGrades);
+                studentData.remove(student.getStudentId());
+                studentData.put(chosenStudent.getStudentId(),chosenStudent);
+                break;
             }
-
-            String name = studentDataToEdit.split("-")[1];
-            String address = studentDataToEdit.split("-")[2];
-            String phone = studentDataToEdit.split("-")[3];
-            String email = studentDataToEdit.split("-")[4];
-            String number = studentDataToEdit.split("-")[5];
-            String pwd = studentDataToEdit.split("-")[6];
-            String faculty = studentDataToEdit.split("-")[7];
-            String department = studentDataToEdit.split("-")[8];
-            String gradeLevel = studentDataToEdit.split("-")[9];
-            String annualPayment = studentDataToEdit.split("-")[10];
-            String courses = studentDataToEdit.split("-")[11];
-            String clubs = studentDataToEdit.split("-")[13];
-            String clubsDescriptions = studentDataToEdit.split("-")[14];
-
-            String newStudentData = userId + "-" + name + "-" + address + "-" + phone + "-" + email + "-" + number
-                    + "-" + pwd + "-" + faculty + "-" + department + "-" + gradeLevel + "-" + annualPayment + "-"
-                    + courses + "-" + newGrades + "-" + clubs + "-" + clubsDescriptions;
-
-
-            while((line = reader.readLine()) != null){
-	            String currentId=line.split("-")[0];
-	            if(Integer.parseInt(currentId) == userId){
-	                content.append(newStudentData);
-	            }
-                else {
-	                content.append(line); 
-	            }               
-               content.append("\n");
-            }
-
-            BufferedWriter writer = new BufferedWriter(new FileWriter("db/_students.txt"));
-            writer.write(content.toString());
-
-            reader.close();
-            writer.close();
-            return studentData;
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            return new ArrayList<String>();
         }
+        return studentData;
     }
 
-    public static void addUser(String userData,String pathname){
+    public static void addUser(Person person,String pathname){
         try{
-            FileWriter writer = new FileWriter(pathname, true); // true makes it protect old data
-            writer.append(userData);
-            if (new File(pathname).length() != 0) {
-                writer.append("\n");
+            ObjectOutputStream writer = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(pathname)));
+            if(pathname.equals("db/_instructors.ser")){
+                HashMap<Integer,Instructor> instructors = Instructor.getAllInstructors();
+                for(Instructor instructor : instructors.values()){
+                    instructor.add();
+                }
+                ((Instructor)person).add();
+                writer.writeObject(Instructor.getAllInstructors());
+            }
+            else if(pathname.equals("db/_students.ser")){
+                HashMap<Integer,Student> students = Student.getAllStudents();
+                for(Student student : students.values()){
+                    student.add();
+                }
+                ((Student)person).add();
+                writer.writeObject(Student.getAllStudents());
             }
             writer.close();
+            writer.flush();
         } 
         catch(IOException e){
             e.printStackTrace();
         }
     }
     
-    public static void updateUser(String userData,int userId,String pathname){
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(pathname));
-            StringBuilder content = new StringBuilder();
-            String line;
-            
-            while((line = reader.readLine()) != null){
-                String currentId=line.split("-")[0];
-                if(Integer.parseInt(currentId.trim()) == userId){
-                    content.append(userData);
-                }
-                else {
-                    content.append(line); 
-                }
-                content.append("\n");
-            }
-
-            BufferedWriter writer = new BufferedWriter(new FileWriter(pathname));
-            writer.write(content.toString());
-
-            reader.close();
-            writer.close();
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-    
     public static void deleteUser(int userId,String pathname){
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(pathname));
-            StringBuilder content = new StringBuilder();
-            String line;
-            
-            while((line = reader.readLine()) != null){
-                String currentId=line.split("-")[0].trim();
-                if(Integer.parseInt(currentId) != userId){
-                    content.append(line+"\n");
+        try{
+            ObjectOutputStream writer = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(pathname)));
+            if(pathname.equals("db/_instructors.ser")){
+                HashMap<Integer,Instructor> instructors = Instructor.getAllInstructors();
+                for(Instructor instructor : instructors.values()){
+                    instructor.add();
                 }
+                instructors.remove(userId);
+                writer.writeObject(Instructor.getAllInstructors());
             }
-
-            BufferedWriter writer = new BufferedWriter(new FileWriter(pathname));
-            writer.write(content.toString());
-
-            reader.close();
+            else if(pathname.equals("db/_students.ser")){
+                HashMap<Integer,Student> students = Student.getAllStudents();
+                for(Student student : students.values()){
+                    student.add();
+                }
+                students.remove(userId);
+                writer.writeObject(Student.getAllStudents());
+            }
             writer.close();
-        } catch (IOException ex){
+            writer.flush();  
+        } 
+        catch (IOException ex){
             System.out.println(ex.getMessage());
         }
     }

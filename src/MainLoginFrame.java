@@ -1,17 +1,13 @@
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
+import java.util.HashMap;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import java.util.ArrayList;
-
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -19,7 +15,7 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
 public class MainLoginFrame extends JFrame implements ActionListener {
-
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField usernameField;
@@ -28,8 +24,9 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 	boolean isStudentLoginSuccessful = false;
 	boolean isAdminLoginSuccessful = false;
 	boolean isInstuctorLoginSuccessful = false;
-	String studentLoggedIn;
-	String instructorLoggedIn;
+	Student studentLoggedIn;
+	Instructor instructorLoggedIn;
+	Admin admin;
 	
 
 	public static void main(String[] args) {
@@ -55,8 +52,10 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 		Instructor emptyInstructorToAvoidStaticMethods = new Instructor();
 		emptyInstructorToAvoidStaticMethods.addExistingUsersToTheMaps();
 		System.out.println(Instructor.getAllInstructors());
-		
 
+		//admin = new Admin("sef4","admin");
+		//FileStuff.writeTxt(admin, "db/admin.ser");
+		
 		setTitle("University Management System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 982, 462);
@@ -116,11 +115,11 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 		String passwordInput = String.valueOf(passwordField.getPassword());
 
 		if(roleSelected.equals("Student")){
-			ArrayList<String> students = FileStuff.readTxt("db/_students.txt");
+			HashMap<Integer,Person> students = FileStuff.readTxt("db/_students.ser");
 			
-			for(int i=0;i<students.size();i++){
-				String student = FileStuff.readTxt("db/_students.txt").get(i);
-				if(student.split("-")[5].equals(usernameInput) && student.split("-")[6].equals(passwordInput)){
+			for(Person person:students.values()){
+				Student student = (Student)person;
+				if(student.getStudentNumber().equals(usernameInput) && student.getStudentPassword().equals(passwordInput)){
 					isStudentLoginSuccessful = true;
 					studentLoggedIn = student;
 					break;
@@ -132,11 +131,11 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 		}
 
 		if(roleSelected.equals("Instructor")){
-			ArrayList<String> instructors = FileStuff.readTxt("db/_instructors.txt");
+			HashMap<Integer,Person> instructors = FileStuff.readTxt("db/_instructors.ser");
 			
-			for(int i=0;i<instructors.size();i++){
-				String instructor = FileStuff.readTxt("db/_instructors.txt").get(i);
-				if(instructor.split("-")[7].equals(usernameInput) && instructor.split("-")[8].equals(passwordInput)){
+			for(Person person:instructors.values()){
+				Instructor instructor = (Instructor)person;
+				if(instructor.getUsername().equals(usernameInput) && instructor.getPassword().equals(passwordInput)){
 					isInstuctorLoginSuccessful = true;
 					instructorLoggedIn = instructor;
 					break;
@@ -146,11 +145,10 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 				}
 			}
 		}
-		
+
 		if(roleSelected.equals("Admin")){
-			ArrayList<String> adminArr = FileStuff.readTxt("db/admin.txt");
-			String admin = adminArr.get(0);
-			if(admin.split("-")[0].trim().equals(usernameInput) && admin.split("-")[1].trim().equals(passwordInput)){
+			Admin admin = FileStuff.readAdmin();
+			if(admin.getUsername().equals(usernameInput) && admin.getPassword().equals(passwordInput)){
 				isAdminLoginSuccessful = true;
 			}
 		}
