@@ -6,25 +6,21 @@ public class Student extends Person implements Managable{
     private static HashMap<Integer, Student> students = new HashMap<>(); 
 
     private static final long serialVersionUID = 1L;
-    private int student_id; // id in person?
-    private String studentNumber; // int? 
-    private String studentPassword; // password in person?
+    private String studentNumber;
     private String faculty;
     private String department;
-    private String gradeLevel; // int?
-    private String annual_fee; //int/double?
+    private String gradeLevel;
+    private String annual_fee;
     private ArrayList<String> courses = new ArrayList<String>();
-    private ArrayList<String> grades = new ArrayList<String>(); // Integer?
+    private ArrayList<String> grades = new ArrayList<String>();
     private ArrayList<String> clubs = new ArrayList<String>();
     private ArrayList<String> clubDescriptions = new ArrayList<String>();
 
     public Student(){}
 
     public Student(int id,String name,String address,String phoneNumber,String email,String studentNumber,String pwd, String faculty, String department, String gradeLevel, String annual_fee,ArrayList<String> courses, ArrayList<String> grades, ArrayList<String> clubs, ArrayList<String> clubDescriptions){
-        super(name,address,phoneNumber,email);
-        this.student_id = id;
+        super(id,name,address,phoneNumber,email,studentNumber,pwd);
         this.studentNumber = studentNumber;
-        this.studentPassword = pwd;
         this.faculty = faculty;
         this.department = department;
         this.gradeLevel = gradeLevel;
@@ -37,21 +33,17 @@ public class Student extends Person implements Managable{
 
     public static HashMap<Integer,Student> getAllStudents(){return students;}
 
-    public int getStudentId(){return this.student_id;}
-    public void setStudentId(int id){this.student_id = id;}
     public String getStudentNumber(){return this.studentNumber;}
     public void setStudentNumber(String studentNumber){this.studentNumber = studentNumber;}
-    public String getStudentPassword(){return this.studentPassword;}
-    public void setStudentPassword(String student_password){this.studentPassword = student_password;}
     
     public String getAnnualFee(){return this.annual_fee;}
     public void setAnnualFee(String annual_fee){this.annual_fee = annual_fee;}
     public int getNumOfCourses(){return courses.size();}
     
     public String getFaculty(){return this.faculty;}
-    public void setFaculty(String faculty){this.faculty = faculty;} // fakülte değişimi?
+    public void setFaculty(String faculty){this.faculty = faculty;}
     public String getDepartment(){return this.department;}
-    public void setDepartment(String department){this.department = department;} // bölüm değişimi?
+    public void setDepartment(String department){this.department = department;}
     public String getGradeLevel(){return this.gradeLevel;}
     public void setGradeLevel(String gradeLevel){this.gradeLevel = gradeLevel;}
     
@@ -71,11 +63,11 @@ public class Student extends Person implements Managable{
 
     @Override
     public void add(){
-        students.put(this.getStudentId(), this);
+        students.put(this.getId(), this);
     }
 
     public static void edit(int id, String name,String address,String phoneNumber,String email,String pwd, String faculty, String department, String gradeLevel, String annual_fee,ArrayList<String> courses, ArrayList<String> grades, ArrayList<String> clubs, ArrayList<String> clubDescriptions) {
-        HashMap<Integer,Person> data = FileStuff.readTxt("db/_students.ser");
+        HashMap<Integer,Person> data = FileStuff.read("db/students.ser");
         Person person = data.get(id);
         Student student = (Student)person;
         if (student != null){
@@ -84,7 +76,7 @@ public class Student extends Person implements Managable{
             chosenStudent.setAddress(address);
             chosenStudent.setPhoneNumber(phoneNumber);
             chosenStudent.setEmail(email);
-            chosenStudent.setStudentPassword(pwd);
+            chosenStudent.setPassword(pwd);
             chosenStudent.setFaculty(faculty);
             chosenStudent.setDepartment(department);
             chosenStudent.setGradeLevel(gradeLevel);
@@ -93,10 +85,10 @@ public class Student extends Person implements Managable{
             chosenStudent.setGrades(grades);
             chosenStudent.setClubs(clubs);
             chosenStudent.setClubDescriptions(clubDescriptions);
-            data.remove(student.getStudentId());
-            data.put(chosenStudent.getStudentId(),chosenStudent);
+            data.remove(student.getId());
+            data.put(chosenStudent.getId(),chosenStudent);
         }
-        FileStuff.writeTxt(data, "db/_students.ser");
+        FileStuff.write(data, "db/students.ser");
     }
 
     @Override
@@ -110,7 +102,7 @@ public class Student extends Person implements Managable{
 
     @Override
     public void addExistingUsersToTheMaps(){
-        HashMap<Integer,Person> students = FileStuff.readTxt("db/_students.ser");
+        HashMap<Integer,Person> students = FileStuff.read("db/students.ser");
         for(Person person:students.values()){
             Student student = (Student)person;
             student.add();

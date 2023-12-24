@@ -142,7 +142,7 @@ public class StudentFrame extends JFrame {
 		for(int i=0;i<coursesArray.length;i++){
 			JLabel[] coursesLabels = new JLabel[coursesArray.length];
 			coursesLabels[i] = new JLabel("<html>"+coursesArray[i]+"<br></html>");
-			coursesLabels[i].setBorder(BorderFactory.createEmptyBorder(0,30,0,30)); // for the linespacing
+			coursesLabels[i].setBorder(BorderFactory.createEmptyBorder(0,150,0,150)); // for the linespacing
 			coursesLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
 			coursesLabels[i].setFont(new Font("Tahoma", Font.BOLD, 15));
 			coursesArea.add(coursesLabels[i]);
@@ -154,7 +154,7 @@ public class StudentFrame extends JFrame {
 		for(int i=0;i<gradesArray.length;i++){
 			JLabel[] gradesLabels = new JLabel[gradesArray.length];
 			gradesLabels[i] = new JLabel(gradesArray[i].toString());
-			gradesLabels[i].setBorder(BorderFactory.createEmptyBorder(0,30,0,30));
+			gradesLabels[i].setBorder(BorderFactory.createEmptyBorder(0,10,0,10));
 			gradesLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
 			gradesLabels[i].setFont(new Font("Tahoma", Font.BOLD, 15));
 			gradesArea.add(gradesLabels[i]);
@@ -183,7 +183,7 @@ public class StudentFrame extends JFrame {
 		idField.setBounds(128, 78, 142, 29);
 		personalInfoPanel.add(idField);
 		idField.setColumns(10);
-		idField.setText(""+student.getStudentId());
+		idField.setText(""+student.getId());
 		idField.setEditable(false);
 		
 		JLabel idLabel = new JLabel("ID:");
@@ -287,12 +287,12 @@ public class StudentFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String passwordInput1 = String.valueOf(passwordField1.getPassword());
 				String passwordInput2 = String.valueOf(passwordField2.getPassword());
-				if(passwordInput1.equals(student.getStudentPassword()) && passwordInput2.equals(student.getStudentNumber())){
+				if(passwordInput1.equals(student.getPassword().trim()) && passwordInput2.equals(student.getPassword().trim())){
 					int idInt = Integer.parseInt(idField.getText().trim());
-				
-					Student.edit(idInt,student.getName(),student.getAddress(),student.getPhoneNumber(),student.getEmail(),student.getStudentNumber(),student.getStudentPassword(),student.getFaculty(),student.getDepartment(),student.getGradeLevel(),student.getCourses(),student.getGrades(),student.getClubs(),student.getClubDescriptions());
+					
+					Student.edit(idInt,student.getName(),student.getAddress(),student.getPhoneNumber(),student.getEmail(),student.getPassword(),student.getFaculty(),student.getDepartment(),student.getGradeLevel(),student.getAnnualFee(),student.getCourses(),student.getGrades(),student.getClubs(),student.getClubDescriptions());
 
-					FileStuff.editStudentsTxt(idInt,phoneField.getText(),emailField.getText(),addressField.getText());
+					FileStuff.editStudents(idInt,phoneField.getText(),emailField.getText(),addressField.getText());
 					passwordField1.setText("");
 					passwordField2.setText("");
 					JOptionPane.showMessageDialog(contentPane,"Student Edited Successfully.","Success",JOptionPane.INFORMATION_MESSAGE);
@@ -364,6 +364,7 @@ public class StudentFrame extends JFrame {
 				clubsPanel.setVisible(false);
 			}
 		});
+
 		educationalInfoButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		educationalInfoButton.setBounds(10, 205, 250, 52);
 		contentPane.add(educationalInfoButton);

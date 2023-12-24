@@ -178,10 +178,9 @@ public class InstructorFrame extends JFrame {
 				String passwordInput2 = String.valueOf(passwordField2.getPassword());
 				if(passwordInput1.equals(instructor.getPassword()) && passwordInput2.equals(instructor.getPassword())){
 					int idInt = Integer.parseInt(idField.getText().trim());
-					FileStuff.editInstructorsTxt(idInt,phoneField.getText(),emailField.getText(),addressField.getText());
+					FileStuff.editInstructors(idInt,phoneField.getText(),emailField.getText(),addressField.getText());
 					passwordField1.setText("");
 					passwordField2.setText("");
-
 					Instructor.edit(idInt,instructor.getName(),addressField.getText(),phoneField.getText(),emailField.getText(),instructor.getCourses(),instructor.getSalary(),instructor.getUsername(),instructor.getPassword());
 
 					JOptionPane.showMessageDialog(contentPane,"Instructor Edited Successfully.","Success",JOptionPane.INFORMATION_MESSAGE);
@@ -201,7 +200,7 @@ public class InstructorFrame extends JFrame {
 		studentsPanel.setVisible(false);
 		contentPane.add(studentsPanel);
 	
-		JList studentsList = new JList(FileStuff.readTxt("db/_students.ser").values().toArray());
+		JList studentsList = new JList(FileStuff.read("db/students.ser").values().toArray());
 		studentsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		studentsList.setBounds(10, 11, 153, 240);
 		studentsPanel.add(studentsList);
@@ -269,8 +268,8 @@ public class InstructorFrame extends JFrame {
 					grades.add(gradesTextFields[i].getText());
 				}
 
-				Student.edit(selectedStudent.getStudentId(),selectedStudent.getName(),selectedStudent.getAddress(),selectedStudent.getPhoneNumber(),selectedStudent.getEmail(),selectedStudent.getStudentPassword(),selectedStudent.getFaculty(),selectedStudent.getDepartment(),selectedStudent.getAnnualFee(),selectedStudent.getAnnualFee(),selectedStudent.getCourses(),grades,selectedStudent.getClubs(),selectedStudent.getClubDescriptions());
-				FileStuff.editStudentGrades(selectedStudent.getStudentId(),grades);
+				Student.edit(selectedStudent.getId(),selectedStudent.getName(),selectedStudent.getAddress(),selectedStudent.getPhoneNumber(),selectedStudent.getEmail(),selectedStudent.getPassword(),selectedStudent.getFaculty(),selectedStudent.getDepartment(),selectedStudent.getAnnualFee(),selectedStudent.getAnnualFee(),selectedStudent.getCourses(),grades,selectedStudent.getClubs(),selectedStudent.getClubDescriptions());
+				FileStuff.editStudentGrades(selectedStudent.getId(),grades);
 		 		JOptionPane.showMessageDialog(contentPane,"Student's Grades Edited Successfully.","Success",JOptionPane.INFORMATION_MESSAGE);
 			}
 		});

@@ -275,17 +275,17 @@ public class ManageStudentsFrame extends JFrame {
         studentsTable.getColumnModel().getColumn(10).setPreferredWidth(50);
 
 		// get default values from ser
-        HashMap<Integer,Person> students= FileStuff.readTxt("db/_students.ser");
+        HashMap<Integer,Person> students= FileStuff.read("db/students.ser");
 		Object[] row = new  Object[15];
        	for(Person person:students.values()){
     	  	Student student = (Student)person;
-			row[0] = student.getStudentId();
+			row[0] = student.getId();
 			row[1] = student.getName();
 			row[2] = student.getAddress();
 			row[3] = student.getPhoneNumber();
 			row[4] = student.getEmail();
 			row[5] = student.getStudentNumber();
-			row[6] = student.getStudentPassword();
+			row[6] = student.getPassword();
 			row[7] = student.getFaculty();
 			row[8] = student.getDepartment();
 			row[9] = student.getGradeLevel();
@@ -301,8 +301,8 @@ public class ManageStudentsFrame extends JFrame {
 	   int maxIdIndex=0;
 	   for(Person person : students.values()){
 			Student student = (Student)person;
-			if(student.getStudentId() > maxIdIndex){
-				idCounter = maxIdIndex = student.getStudentId() +1;
+			if(student.getId() > maxIdIndex){
+				idCounter = maxIdIndex = student.getId() +1;
 			}
 	   }
 
@@ -327,7 +327,7 @@ public class ManageStudentsFrame extends JFrame {
 					ArrayList<String> clubsArrayList = new ArrayList<String>(Arrays.asList(row[13].toString().split(",")));
 					ArrayList<String> clubDescriptionsArrayList = new ArrayList<String>(Arrays.asList(row[14].toString().split(",")));
 					Student tempStudent = new Student(Integer.parseInt(row[0].toString().trim()),row[1].toString(),row[2].toString(),row[3].toString(),row[4].toString(),row[5].toString(),row[6].toString(),row[7].toString(),row[8].toString(),row[9].toString(),row[10].toString(),coursesArrayList,gradesArrayList,clubsArrayList,clubDescriptionsArrayList);
-					FileStuff.addUser(tempStudent, "db/_students.ser");
+					FileStuff.addUser(tempStudent, "db/students.ser");
 					tempStudent.add();
 
     				clear();
@@ -378,7 +378,7 @@ public class ManageStudentsFrame extends JFrame {
 					JOptionPane.showMessageDialog(null,"Row Deleted Successfully");
 					
 					int id = Integer.parseInt(idField.getText().trim());
-					FileStuff.deleteUser(id ,"db/_students.ser");
+					FileStuff.deleteUser(id ,"db/students.ser");
 					
 					Student emptyStudentToAvoidStaticMethods = new Student();
 					emptyStudentToAvoidStaticMethods.delete(id);

@@ -53,8 +53,8 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 		emptyInstructorToAvoidStaticMethods.addExistingUsersToTheMaps();
 		System.out.println(Instructor.getAllInstructors());
 
-		//admin = new Admin("sef4","admin");
-		//FileStuff.writeTxt(admin, "db/admin.ser");
+		admin = new Admin("sef4","admin");
+		FileStuff.write(admin, "db/admin.ser");
 		
 		setTitle("University Management System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -115,11 +115,11 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 		String passwordInput = String.valueOf(passwordField.getPassword());
 
 		if(roleSelected.equals("Student")){
-			HashMap<Integer,Person> students = FileStuff.readTxt("db/_students.ser");
+			HashMap<Integer,Person> students = FileStuff.read("db/students.ser");
 			
 			for(Person person:students.values()){
 				Student student = (Student)person;
-				if(student.getStudentNumber().equals(usernameInput) && student.getStudentPassword().equals(passwordInput)){
+				if(student.getStudentNumber().equals(usernameInput) && student.getPassword().equals(passwordInput)){
 					isStudentLoginSuccessful = true;
 					studentLoggedIn = student;
 					break;
@@ -131,7 +131,7 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 		}
 
 		if(roleSelected.equals("Instructor")){
-			HashMap<Integer,Person> instructors = FileStuff.readTxt("db/_instructors.ser");
+			HashMap<Integer,Person> instructors = FileStuff.read("db/instructors.ser");
 			
 			for(Person person:instructors.values()){
 				Instructor instructor = (Instructor)person;
@@ -147,7 +147,7 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 		}
 
 		if(roleSelected.equals("Admin")){
-			Admin admin = FileStuff.readAdmin();
+			Admin admin = FileStuff.read();
 			if(admin.getUsername().equals(usernameInput) && admin.getPassword().equals(passwordInput)){
 				isAdminLoginSuccessful = true;
 			}

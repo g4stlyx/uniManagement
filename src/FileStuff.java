@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class FileStuff {
     FileStuff(){}
 
-    public static Admin readAdmin(){
+    public static Admin read(){
         Admin admin = null;
         ObjectInputStream in = null;
         try {
@@ -39,7 +39,7 @@ public class FileStuff {
         return admin;
     }
 
-    public static HashMap<Integer,Person> readTxt(String pathname) {
+    public static HashMap<Integer,Person> read(String pathname) {
         HashMap<Integer,Person> users = new HashMap<>();
         ObjectInputStream in = null;
         try {
@@ -63,26 +63,26 @@ public class FileStuff {
         return users;
     }
     
-    public static HashMap<Integer,Person> editStudentsTxt(int userId, String newPhone, String newEmail, String newAddress) {
-        HashMap<Integer,Person> data = readTxt("db/_students.ser");
+    public static HashMap<Integer,Person> editStudents(int userId, String newPhone, String newEmail, String newAddress) {
+        HashMap<Integer,Person> data = read("db/students.ser");
         Student chosenStudent;
         for (Person person : data.values()) {
             Student student = (Student)person;
-            if (student.getStudentId() == userId){
+            if (student.getId() == userId){
                 chosenStudent = student;
                 chosenStudent.setPhoneNumber(newPhone);
                 chosenStudent.setEmail(newEmail);
                 chosenStudent.setAddress(newAddress);
-                data.remove(student.getStudentId());
-                data.put(chosenStudent.getStudentId(), chosenStudent);
+                data.remove(student.getId());
+                data.put(chosenStudent.getId(), chosenStudent);
                 break;
             }
         }
-        writeTxt(data, "db/_instructors.ser");
+        write(data, "db/students.ser");
         return data;
     }
 
-    public static void writeTxt(HashMap<Integer,Person> data,String pathname) {
+    public static void write(HashMap<Integer,Person> data,String pathname) {
         try {
             FileOutputStream fileOut = new FileOutputStream(pathname);
             BufferedOutputStream bufferedOut = new BufferedOutputStream(fileOut);
@@ -95,7 +95,7 @@ public class FileStuff {
         }
     }
 
-    public static void writeTxt(Admin admin,String pathname){ // for the admin only
+    public static void write(Admin admin,String pathname){ // for the admin only
         try {
             FileOutputStream fileOut = new FileOutputStream(pathname);
             BufferedOutputStream bufferedOut = new BufferedOutputStream(fileOut);
@@ -108,8 +108,8 @@ public class FileStuff {
         }
     }
 
-    public static HashMap<Integer,Person> editInstructorsTxt(int userId, String newPhone, String newEmail, String newAddress) {
-        HashMap<Integer,Person> instructorData = readTxt("db/_instructors.ser");
+    public static HashMap<Integer,Person> editInstructors(int userId, String newPhone, String newEmail, String newAddress) {
+        HashMap<Integer,Person> instructorData = read("db/instructors.ser");
         Instructor chosenInstructor;
         for (Person person : instructorData.values()) {
             Instructor instructor = (Instructor)person;
@@ -123,20 +123,20 @@ public class FileStuff {
                 break;
             }
         }
-        writeTxt(instructorData, "db/_instructors.ser");
+        write(instructorData, "db/instructors.ser");
 
         return instructorData;
     }
 
     public static HashMap<Integer,Person> editStudentGrades(int userId,ArrayList<String> newGrades){
-        HashMap<Integer,Person> studentData = readTxt("db/_students.ser");
+        HashMap<Integer,Person> studentData = read("db/students.ser");
         for (Person person : studentData.values()) {
             Student student = (Student)person;
-            if (student.getStudentId() == userId) {
+            if (student.getId() == userId) {
                 Student chosenStudent = student;
                 chosenStudent.setGrades(newGrades);
-                studentData.remove(student.getStudentId());
-                studentData.put(chosenStudent.getStudentId(),chosenStudent);
+                studentData.remove(student.getId());
+                studentData.put(chosenStudent.getId(),chosenStudent);
                 break;
             }
         }
@@ -146,7 +146,7 @@ public class FileStuff {
     public static void addUser(Person person,String pathname){
         try{
             ObjectOutputStream writer = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(pathname)));
-            if(pathname.equals("db/_instructors.ser")){
+            if(pathname.equals("db/instructors.ser")){
                 HashMap<Integer,Instructor> instructors = Instructor.getAllInstructors();
                 for(Instructor instructor : instructors.values()){
                     instructor.add();
@@ -154,7 +154,7 @@ public class FileStuff {
                 ((Instructor)person).add();
                 writer.writeObject(Instructor.getAllInstructors());
             }
-            else if(pathname.equals("db/_students.ser")){
+            else if(pathname.equals("db/students.ser")){
                 HashMap<Integer,Student> students = Student.getAllStudents();
                 for(Student student : students.values()){
                     student.add();
@@ -173,7 +173,7 @@ public class FileStuff {
     public static void deleteUser(int userId,String pathname){
         try{
             ObjectOutputStream writer = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(pathname)));
-            if(pathname.equals("db/_instructors.ser")){
+            if(pathname.equals("db/instructors.ser")){
                 HashMap<Integer,Instructor> instructors = Instructor.getAllInstructors();
                 for(Instructor instructor : instructors.values()){
                     instructor.add();
@@ -181,7 +181,7 @@ public class FileStuff {
                 instructors.remove(userId);
                 writer.writeObject(Instructor.getAllInstructors());
             }
-            else if(pathname.equals("db/_students.ser")){
+            else if(pathname.equals("db/students.ser")){
                 HashMap<Integer,Student> students = Student.getAllStudents();
                 for(Student student : students.values()){
                     student.add();

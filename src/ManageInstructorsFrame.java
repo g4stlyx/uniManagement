@@ -199,7 +199,7 @@ public class ManageInstructorsFrame extends JFrame {
         instructorsTable.getColumnModel().getColumn(7).setPreferredWidth(45);
 
 		// get default values from ser
-        HashMap<Integer, Person> instructors= FileStuff.readTxt("db/_instructors.ser");
+        HashMap<Integer, Person> instructors= FileStuff.read("db/instructors.ser");
 		Object[] row = new  Object[9];
        	for(Person person : instructors.values()){
     	  	Instructor instructor = (Instructor)person;
@@ -252,7 +252,7 @@ public class ManageInstructorsFrame extends JFrame {
 						ArrayList<String> courses = new ArrayList<>(Arrays.asList(row[5].toString().split(",")));
 						
 						Instructor user = new Instructor(id,row[1].toString(),row[2].toString(),row[3].toString(),row[4].toString(),courses,row[6].toString(),row[7].toString(),row[8].toString());
-						FileStuff.addUser(user, "db/_instructors.ser");
+						FileStuff.addUser(user, "db/instructors.ser");
 						user.add();
 
 						clear();
@@ -303,7 +303,7 @@ public class ManageInstructorsFrame extends JFrame {
 					JOptionPane.showMessageDialog(null,"Row Deleted Successfully");
 					int id = Integer.parseInt(idField.getText().trim());
 
-					FileStuff.deleteUser(id ,"db/_instructors.ser");
+					FileStuff.deleteUser(id ,"db/instructors.ser");
 					Instructor emptyInstructorToAvoidStaticMethods = new Instructor();
 					emptyInstructorToAvoidStaticMethods.delete(id);
 
