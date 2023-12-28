@@ -326,6 +326,4 @@ public class ManageInstructorsFrame extends JFrame {
 		}
 	}
 
-
-
 }

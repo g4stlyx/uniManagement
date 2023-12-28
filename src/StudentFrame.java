@@ -125,11 +125,11 @@ public class StudentFrame extends JFrame {
 		JLabel gradesLevel = new JLabel("Grades");
 		gradesLevel.setHorizontalAlignment(SwingConstants.CENTER);
 		gradesLevel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		gradesLevel.setBounds(666, 11, 85, 25);
+		gradesLevel.setBounds(670, 11, 85, 25);
 		educationalInfoPanel.add(gradesLevel);
 		
 		JPanel gradesArea = new JPanel();
-		gradesArea.setBounds(666, 48, 92, 221);
+		gradesArea.setBounds(670, 48, 100, 221);
 		educationalInfoPanel.add(gradesArea);
 
 		JPanel coursesArea = new JPanel();

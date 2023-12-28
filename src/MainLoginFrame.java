@@ -47,11 +47,9 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 
 		Student emptyStudentToAvoidStaticMethods = new Student();
 		emptyStudentToAvoidStaticMethods.addExistingUsersToTheMaps();
-		System.out.println(Student.getAllStudents());
 
 		Instructor emptyInstructorToAvoidStaticMethods = new Instructor();
 		emptyInstructorToAvoidStaticMethods.addExistingUsersToTheMaps();
-		System.out.println(Instructor.getAllInstructors());
 
 		admin = new Admin("sef4","admin");
 		FileStuff.write(admin, "db/admin.ser");

@@ -23,7 +23,6 @@ public class Person implements Serializable {
         this.password = password;
     }
 
-    // getter and setter methods
     public int getId(){return id;}
     public void setId(int id){this.id=id;}
     public String getName(){return name;}
@@ -39,13 +38,7 @@ public class Person implements Serializable {
     public String getPassword(){return password;}
     public void setPassword(String password){this.password=password;}
     
-    // other methods
     public String toString(){
         return "person: "+ getId() +","+getName();
     }
-
-    public int login(){
-        return 0;
-    }
-
 }
