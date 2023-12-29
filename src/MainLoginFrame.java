@@ -20,7 +20,7 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 	private JPanel contentPane;
 	private JTextField usernameField;
 	private JPasswordField passwordField;
-	
+	String roleSelected;
 	boolean isStudentLoginSuccessful = false;
 	boolean isAdminLoginSuccessful = false;
 	boolean isInstuctorLoginSuccessful = false;
@@ -53,6 +53,7 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 
 		admin = new Admin("sef4","admin");
 		FileStuff.write(admin, "db/admin.ser");
+		roleSelected = "Admin";
 		
 		setTitle("University Management System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,12 +103,13 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 		loginButton.addActionListener(loginButtonListener);
 		
 		contentPane.add(loginButton);
+		setResizable(false);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e){
 		JComboBox cb = (JComboBox)e.getSource();
-		String roleSelected = (String)cb.getSelectedItem();
+		roleSelected = (String)cb.getSelectedItem();
 
 		String usernameInput = usernameField.getText();
 		String passwordInput = String.valueOf(passwordField.getPassword());

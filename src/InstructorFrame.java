@@ -308,5 +308,7 @@ public class InstructorFrame extends JFrame {
 			}
 		});
 		contentPane.add(goBack);
+		setResizable(false);
+
 	}
 }

@@ -27,7 +27,7 @@ public class AdminFrame extends JFrame {
 			}
 		});
 	}
-
+	
 	public AdminFrame() {
 		setTitle("University Management System - Admin");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,5 +72,7 @@ public class AdminFrame extends JFrame {
 			}
 		});
 		contentPane.add(goBack);
+		setResizable(false);
+
 	}
 }
