@@ -28,7 +28,6 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 	Instructor instructorLoggedIn;
 	Admin admin;
 	
-
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
