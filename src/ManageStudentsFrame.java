@@ -393,7 +393,7 @@ public class ManageStudentsFrame extends JFrame {
         });
         deleteButton.setBounds(230, 410, 89, 23);
         getContentPane().add(deleteButton);
-
+		setResizable(false);
     }
 
 	public void clear(){

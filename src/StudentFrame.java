@@ -390,5 +390,7 @@ public class StudentFrame extends JFrame {
 			}
 		});
 		contentPane.add(goBack);
+		
+		setResizable(false);
 	}
 }

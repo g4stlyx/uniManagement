@@ -317,6 +317,7 @@ public class ManageInstructorsFrame extends JFrame {
         });
         deleteButton.setBounds(230, 410, 89, 23);
         getContentPane().add(deleteButton);
+		setResizable(false);
 
     }
 
