@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Student extends Person implements Managable{
+public class Student extends Person implements Manageable{
 
     private static HashMap<Integer, Student> students = new HashMap<>(); 
 

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Instructor extends Person implements Managable {
+public class Instructor extends Person implements Manageable {
     
     private static HashMap<Integer, Instructor> instructors = new HashMap<>(); 
     private static final long serialVersionUID = 1L;
