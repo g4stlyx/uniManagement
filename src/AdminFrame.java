@@ -29,7 +29,7 @@ public class AdminFrame extends JFrame {
 	}
 	
 	public AdminFrame() {
-		setTitle("University Management System - Admin");
+		setTitle("University Management System v2.1 - Admin");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1100, 462);
 		contentPane = new JPanel();

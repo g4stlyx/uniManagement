@@ -72,7 +72,7 @@ public class ManageStudentsFrame extends JFrame {
 	}
 
 	public ManageStudentsFrame(){
-		setTitle("University Management System - Admin - Manage Students");
+		setTitle("University Management System v2.1 - Admin - Manage Students");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 997, 486);
 		contentPane = new JPanel();

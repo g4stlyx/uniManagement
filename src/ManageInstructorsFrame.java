@@ -59,7 +59,7 @@ public class ManageInstructorsFrame extends JFrame {
 	}
 
 	public ManageInstructorsFrame(){
-		setTitle("University Management System - Admin - Manage Instructors");
+		setTitle("University Management System v2.1 - Admin - Manage Instructors");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 997, 486);
 		contentPane = new JPanel();
