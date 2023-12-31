@@ -54,7 +54,7 @@ public class MainLoginFrame extends JFrame implements ActionListener {
 		FileStuff.write(admin, "db/admin.ser");
 		roleSelected = "Admin";
 		
-		setTitle("University Management System v2.1");
+		setTitle("University Management System v2.1 ");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 982, 462);
 		contentPane = new JPanel();

@@ -46,7 +46,7 @@ public class StudentFrame extends JFrame {
 	}
 
 	public StudentFrame(Student student) {
-		setTitle("University Management System v2.1 - Student");
+		setTitle("University Management System v2.1 - Student ");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1100, 462);
 		contentPane = new JPanel();

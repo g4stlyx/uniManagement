@@ -52,7 +52,7 @@ public class InstructorFrame extends JFrame {
 	}
 
 	public InstructorFrame(Instructor instructor) {
-		setTitle("University Management System v2.1 - Instructor");
+		setTitle("University Management System v2.1 - Instructor ");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1100, 462);
 		contentPane = new JPanel();
